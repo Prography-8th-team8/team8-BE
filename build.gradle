@@ -6,14 +6,7 @@ plugins {
 
 group = 'prography.cakeke'
 version = '0.0.1-SNAPSHOT'
-//sourceCompatibility = '17'
-
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
+sourceCompatibility = '17'
 
 configurations {
     compileOnly {
@@ -29,6 +22,7 @@ dependencies {
     //data
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
+    runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
