@@ -26,6 +26,12 @@ dependencies {
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
+    // sql
+    implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
+
+    // jasypt
+    implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.5'
+
     // web
     implementation 'org.springframework.boot:spring-boot-starter-web'
 

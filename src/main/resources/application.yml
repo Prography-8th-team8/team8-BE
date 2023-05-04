@@ -1,1 +1,14 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
 
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: ENC(uJBG2w90Jz+gVbMrJRcGstGFTK/XAgjGhoF2xwHjPOMeE2dtbWQAaGehGEhfyZbT7etPQQRJP+27u9Sv+fmDUb5LnTYcx4lU7ZGzEOW9CL7tt/y+JuoYSz1G3BJ/NvvpzgUImE7Whgc=)
+    username: ENC(nLQd5MMkjEOI1GDs6jCbrJfsMTLuydyv)
+    password: ENC(mlR3k5929V4n2tj+8TWg2yCFx+qwyHGe)
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
