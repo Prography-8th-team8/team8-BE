@@ -27,4 +27,6 @@ public abstract class Core {
     @NotNull
     @JsonIgnore
     private LocalDateTime modifiedAt;
+
+    private LocalDateTime deletedAt;
 }
