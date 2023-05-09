@@ -13,3 +13,12 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: update
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+          - health
+          - prometheus

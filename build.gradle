@@ -40,6 +40,11 @@ dependencies {
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
+
+    // Prometheus
+    implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.2'
+    implementation 'io.micrometer:micrometer-registry-prometheus'
+    implementation 'io.micrometer:micrometer-core'
 }
 
 test {
