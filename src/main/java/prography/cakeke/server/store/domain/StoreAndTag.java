@@ -1,8 +1,8 @@
 package prography.cakeke.server.store.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -14,11 +14,11 @@ import prography.cakeke.server.common.Core;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreAndTag extends Core {
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "store_tag")
+    @ManyToOne(targetEntity = StoreTag.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_tag_id")
     private StoreTag storeTag;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @Column(name = "store")
+    @ManyToOne(targetEntity = Store.class, fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
     private Store store;
 }
