@@ -12,7 +12,7 @@ import prography.cakeke.server.common.Core;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class StoreTag extends Core {
 
-    @Column
+    @Column(nullable = false)
     private StoreType storeType;
 
 }
