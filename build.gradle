@@ -45,9 +45,26 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator:2.7.2'
     implementation 'io.micrometer:micrometer-registry-prometheus'
     implementation 'io.micrometer:micrometer-core'
+
+    // QueryDsl
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:5.0.0:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
 }
 
 test {
     useJUnitPlatform()
     systemProperty "jasypt.encryptor.password", System.getProperties().get("jasypt.encryptor.password")
+}
+
+// QueryDsl
+def querydslDir = "$buildDir/generated/querydsl"
+
+sourceSets {
+    main.java.srcDirs += [querydslDir]
+}
+
+clean.doLast {
+    file(querydslDir).deleteDir()
 }
