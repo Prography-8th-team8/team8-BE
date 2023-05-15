@@ -24,11 +24,17 @@ public class StoreService implements StoreUseCase {
     private final LoadStorePort loadStorePort;
     private final LoadStoreAndTagPort loadStoreAndTagPort;
 
+    /**
+     * 각 구별 가게 갯수를 반환합니다.
+     */
     @Override
     public List<DistrictCountResponse> getCount() {
         return loadStorePort.getDistrictCount();
     }
 
+    /**
+     * 가게 정보가 필요한 구 이름과 현재 페이지 번호를 받아 가게 리스트를 반환합니다.
+     */
     @Override
     public List<StoreResponse> getList(List<District> district, int page) {
         List<StoreResponse> responses = loadStorePort.getList(district, PageRequest.of(page - 1, 15));
