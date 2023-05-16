@@ -1,5 +1,8 @@
 package prography.cakeke.server.store.adpter.out.persistence;
 
+import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
+
 import java.util.List;
 
 import org.springframework.data.domain.Pageable;
@@ -14,6 +17,8 @@ import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.QStore;
+import prography.cakeke.server.store.domain.QStoreAndTag;
+import prography.cakeke.server.store.domain.QStoreTag;
 
 @Repository
 @RequiredArgsConstructor
@@ -22,6 +27,8 @@ public class StorePersistenceAdapter implements LoadStorePort {
     private final StoreRepository storeRepository;
     private final JPAQueryFactory queryFactory;
     private final QStore store = QStore.store;
+    private final QStoreAndTag storeAndTag = QStoreAndTag.storeAndTag;
+    private final QStoreTag storeTag = QStoreTag.storeTag;
 
     @Override
     public List<DistrictCountResponse> getDistrictCount() {
@@ -38,21 +45,22 @@ public class StorePersistenceAdapter implements LoadStorePort {
     @Override
     public List<StoreResponse> getList(List<District> district, Pageable pageable) {
         return queryFactory
-                .select(Projections.fields(StoreResponse.class,
-                                           store.id,
-                                           store.createdAt,
-                                           store.modifiedAt,
-                                           store.name,
-                                           store.city,
-                                           store.district,
-                                           store.location,
-                                           store.latitude,
-                                           store.longitude
-                ))
-                .from(store)
-                .where(store.district.in(district))
+                .selectFrom(store)
+                .leftJoin(store.storeAndTagList, storeAndTag)
+                .leftJoin(storeAndTag.storeTag, storeTag)
+                .where(
+                        store.district.in(district)
+                )
+                .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
+                .transform(
+                        groupBy(store.id).list(
+                                Projections.constructor(StoreResponse.class,
+                                                        store,
+                                                        list(storeTag)
+                                )
+                        )
+                );
     }
 }

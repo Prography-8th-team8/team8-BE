@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
@@ -20,11 +21,13 @@ import prography.cakeke.server.store.domain.District;
 public class StoreController {
     private final StoreUseCase storeUseCase;
 
+    @Operation(description = "각 구별 가게 갯수 조회")
     @GetMapping("/district/count")
     public ResponseEntity<List<DistrictCountResponse>> getCount() {
         return ResponseEntity.ok().body(this.storeUseCase.getCount());
     }
 
+    @Operation(description = "각 구별 가게 리스트 조회")
     @GetMapping("/list")
     public ResponseEntity<List<StoreResponse>> getList(
             @RequestParam(value = "district") List<District> district,
