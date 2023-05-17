@@ -9,6 +9,7 @@ import com.querydsl.core.annotations.QueryProjection;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 import prography.cakeke.server.store.domain.City;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
@@ -17,6 +18,7 @@ import prography.cakeke.server.store.domain.StoreType;
 
 @Getter
 @NoArgsConstructor
+@SuperBuilder
 public class StoreResponse {
 
     Long id;

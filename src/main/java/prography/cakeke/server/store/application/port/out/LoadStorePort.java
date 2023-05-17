@@ -12,4 +12,6 @@ public interface LoadStorePort {
     List<DistrictCountResponse> getDistrictCount();
 
     List<StoreResponse> getList(List<District> district, Pageable pageable);
+
+    StoreResponse getStoreDetail(Long storeId);
 }
