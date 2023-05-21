@@ -15,7 +15,7 @@ import prography.cakeke.server.store.adpter.in.web.response.StoreNaverSearchApiR
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 
 @Component
-public class NaverSearchApiResult implements LoadNaverSearchApiPort {
+public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     @Value("${api.naver.search.path}")
     String path;
 

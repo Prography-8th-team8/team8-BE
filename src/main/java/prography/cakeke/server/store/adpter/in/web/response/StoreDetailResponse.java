@@ -1,7 +1,5 @@
 package prography.cakeke.server.store.adpter.in.web.response;
 
-import com.querydsl.core.annotations.QueryProjection;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -19,7 +17,6 @@ public class StoreDetailResponse extends StoreResponse{
     String address; // 도로명 주소
 
     @Builder
-    @QueryProjection
     public StoreDetailResponse(
             StoreResponse storeResponse, StoreNaverSearchApiResponse storeNaverSearchApiResponse
     ) {
