@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adpter.out.web;
+package prography.cakeke.server.store.adpter.out.external;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -12,9 +12,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 import prography.cakeke.server.store.adpter.in.web.response.StoreNaverSearchApiResponse;
+import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 
 @Component
-public class NaverApiResult {
+public class NaverSearchApiResult implements LoadNaverSearchApiPort {
     @Value("${api.naver.search.path}")
     String path;
 
@@ -24,6 +25,7 @@ public class NaverApiResult {
     @Value("${api.naver.search.clientSecretKey}")
     String clientSecretKey;
 
+    @Override
     public StoreNaverSearchApiResponse getNaverSearchApiResponse(String storeName){
         ByteBuffer buffer = StandardCharsets.UTF_8.encode(storeName);
         String encode = StandardCharsets.UTF_8.decode(buffer).toString();

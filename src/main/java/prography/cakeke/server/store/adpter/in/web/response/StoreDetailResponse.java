@@ -21,7 +21,7 @@ public class StoreDetailResponse extends StoreResponse{
     @Builder
     @QueryProjection
     public StoreDetailResponse(
-            StoreResponse storeResponse, String link, String description, String phoneNumber, String address
+            StoreResponse storeResponse, StoreNaverSearchApiResponse storeNaverSearchApiResponse
     ) {
         this.id = storeResponse.getId();
         this.createdAt = storeResponse.getCreatedAt();
@@ -32,9 +32,9 @@ public class StoreDetailResponse extends StoreResponse{
         this.latitude = storeResponse.getLatitude();
         this.longitude = storeResponse.getLongitude();
         this.storeTypes = storeResponse.getStoreTypes();
-        this.link = link;
-        this.description = description;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
+        this.link = storeNaverSearchApiResponse.getLink();
+        this.description = storeNaverSearchApiResponse.getDescription();
+        this.phoneNumber = storeNaverSearchApiResponse.getPhoneNumber();
+        this.address = storeNaverSearchApiResponse.getAddress();
     }
 }

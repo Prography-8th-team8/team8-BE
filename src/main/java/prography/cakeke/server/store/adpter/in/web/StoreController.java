@@ -40,7 +40,7 @@ public class StoreController {
     }
 
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
-    @GetMapping("{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<StoreDetailResponse> getStoreDetail(@PathVariable("id") Long storeId) {
         return ResponseEntity.ok().body(this.storeUseCase.getStoreDetail(storeId));
     }

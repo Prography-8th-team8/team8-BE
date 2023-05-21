@@ -11,8 +11,8 @@ import prography.cakeke.server.store.adpter.in.web.response.DistrictCountRespons
 import prography.cakeke.server.store.adpter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreNaverSearchApiResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
-import prography.cakeke.server.store.adpter.out.web.NaverApiResult;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
+import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
 
@@ -21,7 +21,7 @@ import prography.cakeke.server.store.domain.District;
 @Transactional(readOnly = true)
 public class StoreService implements StoreUseCase {
 
-    private final NaverApiResult naverApiResult;
+    private final LoadNaverSearchApiPort loadNaverSearchApiPort;
     private final LoadStorePort loadStorePort;
 
     /**
@@ -49,12 +49,8 @@ public class StoreService implements StoreUseCase {
         StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId);
 
         // 네이버 api에서 추가 정보 가져오기
-        StoreNaverSearchApiResponse storeNaverSearchApiResponse = naverApiResult.getNaverSearchApiResponse(storeResponse.getName());
+        StoreNaverSearchApiResponse storeNaverSearchApiResponse = loadNaverSearchApiPort.getNaverSearchApiResponse(storeResponse.getName());
         // 추가 정보 합쳐서 리턴
-        return new StoreDetailResponse(storeResponse,
-                                       storeNaverSearchApiResponse.getLink(),
-                                       storeNaverSearchApiResponse.getDescription(),
-                                       storeNaverSearchApiResponse.getPhoneNumber(),
-                                       storeNaverSearchApiResponse.getAddress());
+        return new StoreDetailResponse(storeResponse, storeNaverSearchApiResponse);
     }
 }
