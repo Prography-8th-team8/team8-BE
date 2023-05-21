@@ -8,8 +8,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adpter.in.web.response.StoreDetailResponse;
+import prography.cakeke.server.store.adpter.in.web.response.StoreNaverSearchApiResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
+import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
 
@@ -18,6 +21,7 @@ import prography.cakeke.server.store.domain.District;
 @Transactional(readOnly = true)
 public class StoreService implements StoreUseCase {
 
+    private final LoadNaverSearchApiPort loadNaverSearchApiPort;
     private final LoadStorePort loadStorePort;
 
     /**
@@ -34,5 +38,19 @@ public class StoreService implements StoreUseCase {
     @Override
     public List<StoreResponse> getList(List<District> district, int page) {
         return loadStorePort.getList(district, PageRequest.of(page - 1, 15));
+    }
+
+    /**
+     * 가게 아이디를 받아 가게 상세정보를 반환합니다.
+     */
+    @Override
+    public StoreDetailResponse getStoreDetail(Long storeId){
+
+        StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId);
+
+        // 네이버 api에서 추가 정보 가져오기
+        StoreNaverSearchApiResponse storeNaverSearchApiResponse = loadNaverSearchApiPort.getNaverSearchApiResponse(storeResponse.getName());
+        // 추가 정보 합쳐서 리턴
+        return new StoreDetailResponse(storeResponse, storeNaverSearchApiResponse);
     }
 }

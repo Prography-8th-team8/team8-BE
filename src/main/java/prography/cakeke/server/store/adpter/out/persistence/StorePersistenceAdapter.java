@@ -63,4 +63,18 @@ public class StorePersistenceAdapter implements LoadStorePort {
                         )
                 );
     }
+
+    @Override
+    public StoreResponse getStoreDetail(Long storeId) {
+        return queryFactory
+                .select(Projections.constructor(StoreResponse.class,
+                                                store,
+                                                list(storeTag)
+                ))
+                .from(store)
+                .leftJoin(store.storeAndTagList, storeAndTag)
+                .leftJoin(storeAndTag.storeTag, storeTag)
+                .where(store.id.eq(storeId)) // where 조건 추가
+                .fetchOne();
+    }
 }
