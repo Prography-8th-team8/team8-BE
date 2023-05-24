@@ -1,5 +1,7 @@
 package prography.cakeke.server.store.adpter.in.web.response;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -16,9 +18,11 @@ public class StoreDetailResponse extends StoreResponse{
 
     String address; // 도로명 주소
 
+    List<StoreNaverBlogSearchApiResponse> blogPosts; // 네이버 블로그 목록
+
     @Builder
     public StoreDetailResponse(
-            StoreResponse storeResponse, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse
+            StoreResponse storeResponse, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse, List<StoreNaverBlogSearchApiResponse> blogPosts
     ) {
         this.id = storeResponse.getId();
         this.createdAt = storeResponse.getCreatedAt();
@@ -33,5 +37,6 @@ public class StoreDetailResponse extends StoreResponse{
         this.description = storeNaverLocalSearchApiResponse.getDescription();
         this.phoneNumber = storeNaverLocalSearchApiResponse.getPhoneNumber();
         this.address = storeNaverLocalSearchApiResponse.getAddress();
+        this.blogPosts = blogPosts;
     }
 }
