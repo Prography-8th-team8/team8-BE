@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
-import prography.cakeke.server.store.adpter.in.web.response.StoreNaverSearchApiResponse;
+import prography.cakeke.server.store.adpter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 
 @Component
@@ -26,7 +26,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     String clientSecretKey;
 
     @Override
-    public StoreNaverSearchApiResponse getNaverSearchApiResponse(String storeName){
+    public StoreNaverLocalSearchApiResponse getNaverSearchApiResponse(String storeName){
         ByteBuffer buffer = StandardCharsets.UTF_8.encode(storeName);
         String encode = StandardCharsets.UTF_8.decode(buffer).toString();
 
@@ -69,6 +69,6 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
         int roadAddressEndIndex = responseJson.indexOf("\"", roadAddressStartIndex);
         String address = responseJson.substring(roadAddressStartIndex, roadAddressEndIndex);
 
-        return new StoreNaverSearchApiResponse(link, description, phoneNumber, address);
+        return new StoreNaverLocalSearchApiResponse(link, description, phoneNumber, address);
     }
 }

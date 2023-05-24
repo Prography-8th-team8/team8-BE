@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class StoreNaverSearchApiResponse {
+public class StoreNaverLocalSearchApiResponse {
     String link; // 가게 URL
 
     String description; // 가게 설명
@@ -14,7 +14,7 @@ public class StoreNaverSearchApiResponse {
     String address; // 도로명 주소
 
     @Builder
-    public StoreNaverSearchApiResponse(
+    public StoreNaverLocalSearchApiResponse(
             String link, String description, String phoneNumber, String address
     ) {
         this.link = link;

@@ -18,7 +18,7 @@ public class StoreDetailResponse extends StoreResponse{
 
     @Builder
     public StoreDetailResponse(
-            StoreResponse storeResponse, StoreNaverSearchApiResponse storeNaverSearchApiResponse
+            StoreResponse storeResponse, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse
     ) {
         this.id = storeResponse.getId();
         this.createdAt = storeResponse.getCreatedAt();
@@ -29,9 +29,9 @@ public class StoreDetailResponse extends StoreResponse{
         this.latitude = storeResponse.getLatitude();
         this.longitude = storeResponse.getLongitude();
         this.storeTypes = storeResponse.getStoreTypes();
-        this.link = storeNaverSearchApiResponse.getLink();
-        this.description = storeNaverSearchApiResponse.getDescription();
-        this.phoneNumber = storeNaverSearchApiResponse.getPhoneNumber();
-        this.address = storeNaverSearchApiResponse.getAddress();
+        this.link = storeNaverLocalSearchApiResponse.getLink();
+        this.description = storeNaverLocalSearchApiResponse.getDescription();
+        this.phoneNumber = storeNaverLocalSearchApiResponse.getPhoneNumber();
+        this.address = storeNaverLocalSearchApiResponse.getAddress();
     }
 }

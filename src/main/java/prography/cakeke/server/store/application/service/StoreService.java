@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreDetailResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreNaverSearchApiResponse;
+import prography.cakeke.server.store.adpter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
@@ -49,8 +49,9 @@ public class StoreService implements StoreUseCase {
         StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId);
 
         // 네이버 api에서 추가 정보 가져오기
-        StoreNaverSearchApiResponse storeNaverSearchApiResponse = loadNaverSearchApiPort.getNaverSearchApiResponse(storeResponse.getName());
+        StoreNaverLocalSearchApiResponse
+                storeNaverLocalSearchApiResponse = loadNaverSearchApiPort.getNaverSearchApiResponse(storeResponse.getName());
         // 추가 정보 합쳐서 리턴
-        return new StoreDetailResponse(storeResponse, storeNaverSearchApiResponse);
+        return new StoreDetailResponse(storeResponse, storeNaverLocalSearchApiResponse);
     }
 }
