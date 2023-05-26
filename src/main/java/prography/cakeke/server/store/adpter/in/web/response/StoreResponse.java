@@ -33,6 +33,8 @@ public class StoreResponse {
 
     District district;
 
+    String location;
+
     Double latitude;
 
     Double longitude;
@@ -50,6 +52,7 @@ public class StoreResponse {
         this.name = store.getName();
         this.city = store.getCity();
         this.district = store.getDistrict();
+        this.location = store.getLocation();
         this.latitude = store.getLatitude();
         this.longitude = store.getLongitude();
         this.storeTypes = storeTag != null ?
