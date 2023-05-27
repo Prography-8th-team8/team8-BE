@@ -26,6 +26,7 @@ management:
 api:
   naver:
     search:
-      path: ENC(KfaxjmTlmWftq0uisJNgU9CQ1SDvpF3bWQcAURLYpmw=)
+      localpath: ENC(KfaxjmTlmWftq0uisJNgU9CQ1SDvpF3bWQcAURLYpmw=)
+      blogpath: ENC(GSlS/0x3C91TAgBEOuTyLCCG+XjXyjZPZ/stWvmnm0A=)
       clientID: ENC(rt5zrLvQPfnCPYra/zC/4R+b47ZTaJy84yWh5NJeajU=)
       clientSecretKey: ENC(PYFTLxiIsAm50Hte4UuNbE3Y/qhDFDu9)
