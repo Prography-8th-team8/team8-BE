@@ -35,6 +35,9 @@ public class Store extends Core {
     private District district;
 
     @Column(nullable = false)
+    private String location;
+
+    @Column(nullable = false)
     private Double latitude;
 
     @Column(nullable = false)
@@ -45,12 +48,14 @@ public class Store extends Core {
             String name,
             City city,
             District district,
+            String location,
             Double latitude,
             Double longitude
     ) {
         this.name = name;
         this.city = city;
         this.district = district;
+        this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
     }

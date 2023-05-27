@@ -6,7 +6,7 @@ import lombok.experimental.SuperBuilder;
 
 @Getter
 @SuperBuilder
-public class StoreDetailResponse extends StoreResponse{
+public class StoreDetailResponse extends StoreResponse {
 
     String link; // 가게 URL
 
@@ -26,6 +26,7 @@ public class StoreDetailResponse extends StoreResponse{
         this.name = storeResponse.getName();
         this.city = storeResponse.getCity();
         this.district = storeResponse.getDistrict();
+        this.location = storeResponse.getLocation();
         this.latitude = storeResponse.getLatitude();
         this.longitude = storeResponse.getLongitude();
         this.storeTypes = storeResponse.getStoreTypes();
