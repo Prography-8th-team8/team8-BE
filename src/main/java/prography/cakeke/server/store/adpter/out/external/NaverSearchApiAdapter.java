@@ -78,6 +78,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     public StoreNaverLocalSearchApiResponse getNaverLocalSearchResponse(String storeName) {
         final Integer displayNum = 1; // 아이템 개수
         /**
+         * sortType 옵션
          * random : 정확도순으로 내림차순 정렬(기본값)
          * comment: 업체 및 기관에 대한 카페, 블로그의 리뷰 개수순으로 내림차순 정렬
          * */
@@ -103,6 +104,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     public List<StoreNaverBlogSearchApiResponse> getNaverBlogSearchResponse(String storeName) {
         final Integer displayNum = 6; // 아이템 개수
         /**
+         * sortType 옵션
          * sim: 정확도순으로 내림차순 정렬(기본값)
          * date: 날짜순으로 내림차순 정렬
          * */
