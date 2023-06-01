@@ -76,7 +76,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     /** 네이버 지역 검색 */
     @Override
     public StoreNaverLocalSearchApiResponse getNaverLocalSearchResponse(String storeName) {
-        final Integer displayNum = 1; // 아이템 개수
+        final Integer DISPLAY_NUM = 1; // 아이템 개수
         /**
          * sortType 옵션
          * random : 정확도순으로 내림차순 정렬(기본값)
@@ -84,7 +84,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
          * */
         final String sortType = "random";
 
-        JSONArray responseJson = getNaverSearchApiResponse(storeName, displayNum, sortType, localPath);
+        JSONArray responseJson = getNaverSearchApiResponse(storeName, DISPLAY_NUM, sortType, localPath);
 
         String link = "", description = "", phoneNumber = "", address = "";
 
@@ -101,15 +101,14 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     }
 
     /** 네이버 블로그 검색 */
-    public List<StoreNaverBlogSearchApiResponse> getNaverBlogSearchResponse(String storeName) {
-        final Integer displayNum = 6; // 아이템 개수
+    public List<StoreNaverBlogSearchApiResponse> getNaverBlogSearchResponse(String storeName, Integer blogNum) {
         /**
          * sortType 옵션
          * sim: 정확도순으로 내림차순 정렬(기본값)
          * date: 날짜순으로 내림차순 정렬
          * */
         final String sortType = "sim";
-        JSONArray responseJson = getNaverSearchApiResponse(storeName, displayNum, sortType, blogPath);
+        JSONArray responseJson = getNaverSearchApiResponse(storeName, blogNum, sortType, blogPath);
 
         List<StoreNaverBlogSearchApiResponse> storeNaverBlogSearchApiResponseList = new ArrayList<>();
         for (int i = 0; i < responseJson.length(); i++) {
