@@ -47,8 +47,10 @@ public class StoreController {
     }
 
     @Operation(description = "케이크샵 블로그 정보 조회")
-    @GetMapping("/blog")
-    public ResponseEntity<StoreBlogResponse> getStoreBlog(@RequestParam(value = "id") Long storeId, @RequestParam(value = "num", required = false, defaultValue = "3") Integer blogNum) {
+    @GetMapping("/{id}/blog")
+    public ResponseEntity<StoreBlogResponse> getStoreBlog(
+            @PathVariable(value = "id") Long storeId,
+            @RequestParam(value = "num", required = false, defaultValue = "3") Integer blogNum) {
         return ResponseEntity.ok().body(this.storeUseCase.getStoreBlog(storeId, blogNum));
     }
 }
