@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adpter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
@@ -43,5 +44,11 @@ public class StoreController {
     @GetMapping("/{id}")
     public ResponseEntity<StoreDetailResponse> getStoreDetail(@PathVariable("id") Long storeId) {
         return ResponseEntity.ok().body(this.storeUseCase.getStoreDetail(storeId));
+    }
+
+    @Operation(description = "케이크샵 블로그 정보 조회")
+    @GetMapping("/blog")
+    public ResponseEntity<StoreBlogResponse> getStoreBlog(@RequestParam(value = "id") Long storeId, @RequestParam(value = "num", required = false, defaultValue = "3") Integer blogNum) {
+        return ResponseEntity.ok().body(this.storeUseCase.getStoreBlog(storeId, blogNum));
     }
 }

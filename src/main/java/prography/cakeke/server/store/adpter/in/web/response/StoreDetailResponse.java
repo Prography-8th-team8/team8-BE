@@ -18,11 +18,9 @@ public class StoreDetailResponse extends StoreResponse{
 
     String address; // 도로명 주소
 
-    List<StoreNaverBlogSearchApiResponse> blogPosts; // 네이버 블로그 목록
-
     @Builder
     public StoreDetailResponse(
-            StoreResponse storeResponse, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse, List<StoreNaverBlogSearchApiResponse> blogPosts
+            StoreResponse storeResponse, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse
     ) {
         this.id = storeResponse.getId();
         this.createdAt = storeResponse.getCreatedAt();
@@ -37,6 +35,5 @@ public class StoreDetailResponse extends StoreResponse{
         this.description = storeNaverLocalSearchApiResponse.getDescription();
         this.phoneNumber = storeNaverLocalSearchApiResponse.getPhoneNumber();
         this.address = storeNaverLocalSearchApiResponse.getAddress();
-        this.blogPosts = blogPosts;
     }
 }

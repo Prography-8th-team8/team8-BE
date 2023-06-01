@@ -8,5 +8,5 @@ import prography.cakeke.server.store.adpter.in.web.response.StoreNaverLocalSearc
 public interface LoadNaverSearchApiPort {
     StoreNaverLocalSearchApiResponse getNaverLocalSearchResponse(String storeName);
 
-    List<StoreNaverBlogSearchApiResponse> getNaverBlogSearchResponse(String storeName);
+    List<StoreNaverBlogSearchApiResponse> getNaverBlogSearchResponse(String storeName, Integer blogNum);
 }
