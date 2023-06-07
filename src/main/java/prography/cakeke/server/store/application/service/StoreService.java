@@ -13,6 +13,7 @@ import prography.cakeke.server.store.adpter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.adpter.out.persistence.StoreRepository;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
@@ -25,6 +26,7 @@ public class StoreService implements StoreUseCase {
 
     private final LoadNaverSearchApiPort loadNaverSearchApiPort;
     private final LoadStorePort loadStorePort;
+    private final StoreRepository storeRepository;
 
     /**
      * 각 구별 가게 개수를 반환합니다.
@@ -53,7 +55,8 @@ public class StoreService implements StoreUseCase {
      */
     @Override
     public StoreDetailResponse getStoreDetail(Long storeId) {
-        StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId);
+        List<StoreResponse> storeResponseList = loadStorePort.getStoreDetail(storeId);
+        StoreResponse storeResponse = storeResponseList.get(0);
         final String storeName = storeResponse.getName();
         // 네이버 지역 검색 api 결과값 리턴
         StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse = loadNaverSearchApiPort.getNaverLocalSearchResponse(storeName);
@@ -69,7 +72,8 @@ public class StoreService implements StoreUseCase {
      */
     @Override
     public StoreBlogResponse getStoreBlog(Long storeId, Integer blogNum) {
-        StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId);
+        List<StoreResponse> storeResponseList = loadStorePort.getStoreDetail(storeId);
+        StoreResponse storeResponse = storeResponseList.get(0);
         final String storeName = storeResponse.getName();
         // 네이버 블로그 검색 api 결과값 리턴
         List<StoreNaverBlogSearchApiResponse> storeNaverBlogSearchApiResponseList = loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
