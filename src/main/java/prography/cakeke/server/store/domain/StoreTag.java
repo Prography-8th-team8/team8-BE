@@ -1,5 +1,7 @@
 package prography.cakeke.server.store.domain;
 
+import com.querydsl.core.annotations.QueryProjection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -17,5 +19,10 @@ public class StoreTag extends Core {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private StoreType storeType;
+
+    @QueryProjection
+    public StoreTag(StoreType storeType) {
+        this.storeType = storeType;
+    }
 
 }
