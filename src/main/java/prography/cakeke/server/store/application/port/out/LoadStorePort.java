@@ -1,6 +1,7 @@
 package prography.cakeke.server.store.application.port.out;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 
@@ -12,5 +13,7 @@ public interface LoadStorePort {
     List<DistrictCountResponse> getDistrictCount();
 
     List<StoreResponse> getList(List<District> district, Pageable pageable);
-    List<StoreResponse> getStoreDetail(Long storeId);
+
+    Map<Long, StoreResponse> getStoreDetail(Long storeId);
+
 }

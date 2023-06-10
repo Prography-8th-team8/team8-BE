@@ -2,12 +2,14 @@ package prography.cakeke.server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
+@EnableJpaAuditing
 public class CakekeApplication {
 
-  public static void main(String[] args) {
-    SpringApplication.run(CakekeApplication.class, args);
-  }
+    public static void main(String[] args) {
+        SpringApplication.run(CakekeApplication.class, args);
+    }
 
 }
