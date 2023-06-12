@@ -14,7 +14,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adpter.in.web.response.QStoreResponse;
 import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
@@ -69,7 +68,7 @@ public class StorePersistenceAdapter implements LoadStorePort {
     @Override
     public Map<Long, StoreResponse> getStoreDetail(Long storeId) {
         return queryFactory
-                .select(new QStoreResponse(store, list(new QStoreTag(storeTag))))
+                .select(store)
                 .from(store)
                 .leftJoin(store.storeAndTagList, storeAndTag)
                 .leftJoin(storeAndTag.storeTag, storeTag)
