@@ -27,6 +27,9 @@ public class Store extends Core {
     private String name;
 
     @Column(nullable = false)
+    private String shareLink;
+
+    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private City city;
 
@@ -49,10 +52,12 @@ public class Store extends Core {
             City city,
             District district,
             String location,
+            String shareLink,
             Double latitude,
             Double longitude
     ) {
         this.name = name;
+        this.shareLink = shareLink;
         this.city = city;
         this.district = district;
         this.location = location;

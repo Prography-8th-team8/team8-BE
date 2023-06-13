@@ -1,7 +1,5 @@
 package prography.cakeke.server.store.adpter.in.web.response;
 
-import java.util.List;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.experimental.SuperBuilder;
@@ -26,6 +24,7 @@ public class StoreDetailResponse extends StoreResponse {
         this.createdAt = storeResponse.getCreatedAt();
         this.modifiedAt = storeResponse.getModifiedAt();
         this.name = storeResponse.getName();
+        this.shareLink = storeResponse.getShareLink();
         this.city = storeResponse.getCity();
         this.district = storeResponse.getDistrict();
         this.location = storeResponse.getLocation();

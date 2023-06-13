@@ -29,6 +29,8 @@ public class StoreResponse {
 
     String name;
 
+    String shareLink;
+
     City city;
 
     District district;
@@ -50,6 +52,7 @@ public class StoreResponse {
         this.createdAt = store.getCreatedAt();
         this.modifiedAt = store.getModifiedAt();
         this.name = store.getName();
+        this.shareLink = store.getShareLink();
         this.city = store.getCity();
         this.district = store.getDistrict();
         this.location = store.getLocation();
