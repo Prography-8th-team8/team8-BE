@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adapter.in.web;
+package prography.cakeke.server.image.adapter.in.web;
 
 import java.util.List;
 
@@ -11,8 +11,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.UploadImageResponse;
-import prography.cakeke.server.store.application.port.in.ImageUseCase;
+import prography.cakeke.server.image.adapter.in.web.response.UploadImageResponse;
+import prography.cakeke.server.image.application.port.in.ImageUseCase;
 
 @RestController
 @RequestMapping("/api/image")

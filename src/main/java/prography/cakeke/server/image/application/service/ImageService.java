@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.application.service;
+package prography.cakeke.server.image.application.service;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -19,8 +19,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.UploadImageResponse;
-import prography.cakeke.server.store.application.port.in.ImageUseCase;
+import prography.cakeke.server.image.adapter.in.web.response.UploadImageResponse;
+import prography.cakeke.server.image.application.port.in.ImageUseCase;
 
 @Service
 @RequiredArgsConstructor

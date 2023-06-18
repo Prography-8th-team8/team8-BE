@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adapter.in.web.response;
+package prography.cakeke.server.image.adapter.in.web.response;
 
 import java.util.List;
 
