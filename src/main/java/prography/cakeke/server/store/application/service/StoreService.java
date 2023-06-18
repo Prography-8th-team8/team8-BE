@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreBlogResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreDetailResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreNaverBlogSearchApiResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreNaverLocalSearchApiResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;

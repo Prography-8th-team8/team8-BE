@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.data.domain.Pageable;
 
-import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
 
 public interface LoadStorePort {

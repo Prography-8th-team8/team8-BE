@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adpter.out.external;
+package prography.cakeke.server.store.adapter.out.external;
 
 import java.net.URI;
 import java.nio.ByteBuffer;
@@ -16,8 +16,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import prography.cakeke.server.store.adpter.in.web.response.StoreNaverBlogSearchApiResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreNaverLocalSearchApiResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 
 @Component
@@ -35,7 +35,8 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     String clientSecretKey;
 
     /** 네이버 api get */
-    private JSONArray getNaverSearchApiResponse(String storeName, Integer displayNum, String sortOption, String path) {
+    private JSONArray getNaverSearchApiResponse(String storeName, Integer displayNum, String sortOption,
+                                                String path) {
         ByteBuffer buffer = StandardCharsets.UTF_8.encode(storeName);
         String encode = StandardCharsets.UTF_8.decode(buffer).toString();
 
@@ -55,7 +56,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
         RequestEntity<Void> req = RequestEntity
                 .get(uri)
                 .header("X-Naver-Client-Id", clientID)
-                .header("X-Naver-Client-Secret",clientSecretKey)
+                .header("X-Naver-Client-Secret", clientSecretKey)
                 .build();
 
         ResponseEntity<String> response = restTemplate.exchange(req, String.class);
@@ -121,7 +122,11 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
             String bloggerlink = responseJsonObject.optString("bloggerlink");
             String postDate = responseJsonObject.optString("postdate");
 
-            StoreNaverBlogSearchApiResponse apiResponseItem = new StoreNaverBlogSearchApiResponse(title, link, description, bloggername, bloggerlink, postDate);
+            StoreNaverBlogSearchApiResponse apiResponseItem = new StoreNaverBlogSearchApiResponse(title, link,
+                                                                                                  description,
+                                                                                                  bloggername,
+                                                                                                  bloggerlink,
+                                                                                                  postDate);
             storeNaverBlogSearchApiResponseList.add(apiResponseItem);
         }
         return storeNaverBlogSearchApiResponseList;

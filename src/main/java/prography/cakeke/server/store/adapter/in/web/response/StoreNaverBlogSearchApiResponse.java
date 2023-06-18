@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adpter.in.web.response;
+package prography.cakeke.server.store.adapter.in.web.response;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -19,7 +19,8 @@ public class StoreNaverBlogSearchApiResponse {
 
     @Builder
     public StoreNaverBlogSearchApiResponse(
-            String title, String link, String description, String bloggername, String bloggerlink, String postdate
+            String title, String link, String description, String bloggername, String bloggerlink,
+            String postdate
     ) {
         this.title = title;
         this.link = link;
