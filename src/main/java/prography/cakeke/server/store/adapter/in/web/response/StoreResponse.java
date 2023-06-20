@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adpter.in.web.response;
+package prography.cakeke.server.store.adapter.in.web.response;
 
 import java.time.LocalDateTime;
 import java.util.List;

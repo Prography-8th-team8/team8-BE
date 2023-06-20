@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adpter.out.persistence;
+package prography.cakeke.server.store.adapter.out.persistence;
 
 import java.util.List;
 

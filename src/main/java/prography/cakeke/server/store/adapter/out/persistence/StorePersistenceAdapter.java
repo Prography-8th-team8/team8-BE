@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.adpter.out.persistence;
+package prography.cakeke.server.store.adapter.out.persistence;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
@@ -13,8 +13,8 @@ import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adpter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adpter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.QStore;
