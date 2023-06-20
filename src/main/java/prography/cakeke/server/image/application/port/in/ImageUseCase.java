@@ -7,5 +7,5 @@ import org.springframework.web.multipart.MultipartFile;
 import prography.cakeke.server.image.adapter.in.web.response.UploadImageResponse;
 
 public interface ImageUseCase {
-    UploadImageResponse postUploadImage(List<MultipartFile> multipartFiles);
+    UploadImageResponse uploadImage(List<MultipartFile> multipartFiles);
 }

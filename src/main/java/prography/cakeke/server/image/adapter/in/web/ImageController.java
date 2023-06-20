@@ -22,8 +22,8 @@ public class ImageController {
 
     @Operation(description = "사진 S3 업로드")
     @PostMapping("/upload")
-    public ResponseEntity<UploadImageResponse> postUploadImage(
+    public ResponseEntity<UploadImageResponse> uploadImage(
             @RequestPart("image") List<MultipartFile> multipartFiles) {
-        return ResponseEntity.ok(this.imageUseCase.postUploadImage(multipartFiles));
+        return ResponseEntity.ok(this.imageUseCase.uploadImage(multipartFiles));
     }
 }

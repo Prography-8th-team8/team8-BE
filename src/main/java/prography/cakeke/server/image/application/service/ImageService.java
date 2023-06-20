@@ -43,7 +43,7 @@ public class ImageService implements ImageUseCase {
      * @return 업로드된 이미지 url 리스트
      */
     @Override
-    public UploadImageResponse postUploadImage(List<MultipartFile> multipartFiles) {
+    public UploadImageResponse uploadImage(List<MultipartFile> multipartFiles) {
         List<String> fileNameList = new ArrayList<>();
 
         multipartFiles.forEach(file -> {
