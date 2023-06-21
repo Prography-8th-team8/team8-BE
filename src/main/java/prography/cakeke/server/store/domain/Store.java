@@ -14,7 +14,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import prography.cakeke.server.common.Core;
+import prography.cakeke.server.common.domain.Core;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 
 @Entity
