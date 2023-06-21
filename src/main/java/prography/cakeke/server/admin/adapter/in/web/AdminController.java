@@ -20,10 +20,11 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 @RequestMapping("/api/admin")
 @RequiredArgsConstructor
 public class AdminController {
+
     private final AdminUseCase adminUseCase;
 
     @PostMapping(value = "/upload/image/{storeName}",
-            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+            consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "케이크샵 이미지 업로드", description = "AWS S3에 케이크샵 이미지 업로드")
     public ResponseEntity<StoreResponse> uploadImage(
             @PathVariable(value = "storeName") String storeName,
