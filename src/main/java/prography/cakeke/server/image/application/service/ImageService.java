@@ -3,6 +3,7 @@ package prography.cakeke.server.image.application.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,11 +22,18 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.image.application.port.in.ImageUseCase;
 import prography.cakeke.server.image.exceptions.InvalidFileNameException;
+import prography.cakeke.server.image.exceptions.NotSupportedFileFormatException;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ImageService implements ImageUseCase {
+
+    private static final List<String> FILETYPE = Arrays.asList(
+            "image/jpeg",
+            "image/png",
+            "image/jpg"
+    );
 
     private final AmazonS3 amazonS3;
 
@@ -47,6 +55,7 @@ public class ImageService implements ImageUseCase {
         List<String> fileNameList = new ArrayList<>();
 
         multipartFiles.forEach(file -> {
+            mimeValidation(file.getContentType());
             String fileName = dirName + createFileName(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
@@ -60,6 +69,12 @@ public class ImageService implements ImageUseCase {
             fileNameList.add(baseUrl + fileName);
         });
         return fileNameList;
+    }
+
+    private void mimeValidation(String mime) {
+        if (!FILETYPE.contains(mime)) {
+            throw new NotSupportedFileFormatException(mime);
+        }
     }
 
     private String createFileName(String fileName) {
