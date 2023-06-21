@@ -1,12 +1,43 @@
 package prography.cakeke.server.store.adapter.in.web.response;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.experimental.SuperBuilder;
+import prography.cakeke.server.store.domain.City;
+import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.StoreType;
 
 @Getter
-@SuperBuilder
-public class StoreDetailResponse extends StoreResponse {
+@AllArgsConstructor
+public class StoreDetailResponse {
+    Long id;
+
+    LocalDateTime createdAt;
+
+    LocalDateTime modifiedAt;
+
+    String name;
+
+    String shareLink;
+
+    City city;
+
+    District district;
+
+    String location;
+
+    Double latitude;
+
+    Double longitude;
+
+    String thumbnail;
+
+    List<String> images;
+
+    List<StoreType> storeTypes;
 
     String link; // 가게 URL
 
@@ -31,6 +62,8 @@ public class StoreDetailResponse extends StoreResponse {
         this.latitude = storeResponse.getLatitude();
         this.longitude = storeResponse.getLongitude();
         this.storeTypes = storeResponse.getStoreTypes();
+        this.thumbnail = storeResponse.getThumbnail();
+        this.images = storeResponse.getImages();
         this.link = storeNaverLocalSearchApiResponse.getLink();
         this.description = storeNaverLocalSearchApiResponse.getDescription();
         this.phoneNumber = storeNaverLocalSearchApiResponse.getPhoneNumber();
