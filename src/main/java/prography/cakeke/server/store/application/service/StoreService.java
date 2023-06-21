@@ -1,12 +1,15 @@
 package prography.cakeke.server.store.application.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import prography.cakeke.server.config.error.BaseException;
+import prography.cakeke.server.config.error.ErrorCode;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
@@ -17,6 +20,7 @@ import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.Store;
 
 @Service
 @RequiredArgsConstructor
@@ -76,5 +80,19 @@ public class StoreService implements StoreUseCase {
         List<StoreNaverBlogSearchApiResponse> storeNaverBlogSearchApiResponseList =
                 loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
         return new StoreBlogResponse(storeNaverBlogSearchApiResponseList);
+    }
+
+    /**
+     * 해당 가게 정보를 반환합니다.
+     * @param name 가게 이름
+     * @return 가게 정보
+     */
+    @Override
+    public Store getByName(String name) {
+        Optional<Store> store = loadStorePort.getByName(name);
+        if (store.isEmpty()) {
+            throw new BaseException(ErrorCode.NOT_FOUND);
+        }
+        return store.get();
     }
 }

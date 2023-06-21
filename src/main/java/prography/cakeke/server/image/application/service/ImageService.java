@@ -19,7 +19,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.image.adapter.in.web.response.UploadImageResponse;
 import prography.cakeke.server.image.application.port.in.ImageUseCase;
 
 @Service
@@ -43,7 +42,7 @@ public class ImageService implements ImageUseCase {
      * @return 업로드된 이미지 url 리스트
      */
     @Override
-    public UploadImageResponse uploadImage(List<MultipartFile> multipartFiles) {
+    public List<String> uploadImages(List<MultipartFile> multipartFiles) {
         List<String> fileNameList = new ArrayList<>();
 
         multipartFiles.forEach(file -> {
@@ -59,7 +58,7 @@ public class ImageService implements ImageUseCase {
             }
             fileNameList.add(baseUrl + fileName);
         });
-        return new UploadImageResponse(fileNameList);
+        return fileNameList;
     }
 
     private String createFileName(String fileName) {

@@ -4,9 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -46,6 +48,12 @@ public class Store extends Core {
     @Column(nullable = false)
     private Double longitude;
 
+    @Column(nullable = true)
+    private String thumbnail;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> images;
+
     @Builder
     public Store(
             String name,
@@ -63,6 +71,16 @@ public class Store extends Core {
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    public Store uploadThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+        return this;
+    }
+
+    public Store uploadImage(List<String> images) {
+        this.images.addAll(images);
+        return this;
     }
 
     public StoreResponse toResponse() {

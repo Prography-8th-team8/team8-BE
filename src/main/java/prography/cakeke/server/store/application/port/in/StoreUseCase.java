@@ -7,6 +7,7 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.Store;
 
 public interface StoreUseCase {
     List<DistrictCountResponse> getCount();
@@ -16,4 +17,6 @@ public interface StoreUseCase {
     StoreDetailResponse getStoreDetail(Long storeId);
 
     StoreBlogResponse getStoreBlog(Long storeId, Integer blogNum);
+
+    Store getByName(String name);
 }

@@ -36,8 +36,7 @@ public class StoreController {
             @RequestParam(value = "district") List<District> district,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page
     ) {
-        return ResponseEntity.ok().body(
-                this.storeUseCase.getList(district, page));
+        return ResponseEntity.ok().body(this.storeUseCase.getList(district, page));
     }
 
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
