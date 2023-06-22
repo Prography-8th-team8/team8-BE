@@ -52,7 +52,7 @@ public class Store extends Core {
     private String thumbnail;
 
     @ElementCollection(fetch = FetchType.LAZY)
-    private List<String> images;
+    private List<String> imageUrls;
 
     @Builder
     public Store(
@@ -73,13 +73,15 @@ public class Store extends Core {
         this.longitude = longitude;
     }
 
+    // 대표 이미지는 교체될 수 있습니다.
     public Store uploadThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
         return this;
     }
 
-    public Store uploadImage(List<String> images) {
-        this.images.addAll(images);
+    // 케이크 이미지는 교체되지 않고 추가됩니다.
+    public Store uploadImageUrls(List<String> imageUrls) {
+        this.imageUrls.addAll(imageUrls);
         return this;
     }
 

@@ -41,7 +41,7 @@ public class StoreResponse {
 
     String thumbnail;
 
-    List<String> images;
+    List<String> imageUrls;
 
     List<StoreType> storeTypes;
 
@@ -61,7 +61,7 @@ public class StoreResponse {
         this.latitude = store.getLatitude();
         this.longitude = store.getLongitude();
         this.thumbnail = store.getThumbnail();
-        this.images = store.getImages();
+        this.imageUrls = store.getImageUrls();
         this.storeTypes = storeTag != null ?
                           storeTag.stream().map(StoreTag::getStoreType).collect(Collectors.toList())
                                            : List.of();

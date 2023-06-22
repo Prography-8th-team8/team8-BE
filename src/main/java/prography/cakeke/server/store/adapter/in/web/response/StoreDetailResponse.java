@@ -35,7 +35,7 @@ public class StoreDetailResponse {
 
     String thumbnail;
 
-    List<String> images;
+    List<String> imageUrls;
 
     List<StoreType> storeTypes;
 
@@ -63,7 +63,7 @@ public class StoreDetailResponse {
         this.longitude = storeResponse.getLongitude();
         this.storeTypes = storeResponse.getStoreTypes();
         this.thumbnail = storeResponse.getThumbnail();
-        this.images = storeResponse.getImages();
+        this.imageUrls = storeResponse.getImageUrls();
         this.link = storeNaverLocalSearchApiResponse.getLink();
         this.description = storeNaverLocalSearchApiResponse.getDescription();
         this.phoneNumber = storeNaverLocalSearchApiResponse.getPhoneNumber();
