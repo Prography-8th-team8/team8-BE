@@ -39,6 +39,24 @@ public class StoreController {
         return ResponseEntity.ok().body(this.storeUseCase.getList(district, page));
     }
 
+    @Operation(description = "이 지역 재검색")
+    @GetMapping("/reload")
+    public ResponseEntity<List<StoreResponse>> reload(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
+            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
+            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
+            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+    ) {
+        return ResponseEntity.ok().body(
+                this.storeUseCase.reload(
+                        page,
+                        southwestLatitude, southwestLongitude,
+                        northeastLatitude, northeastLongitude
+                )
+        );
+    }
+
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
     @GetMapping("/{id}")
     public ResponseEntity<StoreDetailResponse> getStoreDetail(@PathVariable("id") Long storeId) {

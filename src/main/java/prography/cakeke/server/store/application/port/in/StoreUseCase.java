@@ -14,6 +14,12 @@ public interface StoreUseCase {
 
     List<StoreResponse> getList(List<District> district, int page);
 
+    List<StoreResponse> reload(
+            int page,
+            Double southwestLatitude, Double southwestLongitude,
+            Double northeastLatitude, Double northeastLongitude
+    );
+
     StoreDetailResponse getStoreDetail(Long storeId);
 
     StoreBlogResponse getStoreBlog(Long storeId, Integer blogNum);
