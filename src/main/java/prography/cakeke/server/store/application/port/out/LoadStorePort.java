@@ -14,7 +14,11 @@ import prography.cakeke.server.store.domain.Store;
 public interface LoadStorePort {
     List<DistrictCountResponse> getDistrictCount();
 
-    List<StoreResponse> getList(List<District> district, Pageable pageable);
+    List<StoreResponse> getList(
+            List<District> district, Pageable pageable,
+            Double southwestLongitude, Double northeastLongitude,
+            Double southwestLatitude, Double northeastLatitude
+    );
 
     Map<Long, StoreResponse> getStoreDetail(Long storeId);
 

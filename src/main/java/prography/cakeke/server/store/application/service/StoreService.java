@@ -45,7 +45,29 @@ public class StoreService implements StoreUseCase {
      */
     @Override
     public List<StoreResponse> getList(List<District> district, int page) {
-        return loadStorePort.getList(district, PageRequest.of(page - 1, 15));
+        return loadStorePort.getList(district, PageRequest.of(page - 1, 100), null, null, null, null);
+    }
+
+    /**
+     * 현재 화면의 남서쪽 위도, 경도, 북동쪽 위도, 경도를 받아 해당하는 가게 리스트를 반환합니다.
+     * @param page 페이지 번호
+     * @param southwestLatitude 남서쪽 위도
+     * @param southwestLongitude 남서쪽 경도
+     * @param northeastLatitude 북동쪽 위도
+     * @param northeastLongitude 북동쪽 경도
+     * @return 가게 리스트
+     */
+    @Override
+    public List<StoreResponse> reload(
+            int page,
+            Double southwestLatitude, Double southwestLongitude,
+            Double northeastLatitude, Double northeastLongitude
+    ) {
+        return loadStorePort.getList(
+                null, PageRequest.of(page - 1, 100),
+                southwestLatitude, southwestLongitude,
+                northeastLatitude, northeastLongitude
+        );
     }
 
     /**
