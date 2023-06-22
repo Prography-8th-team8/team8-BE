@@ -4,15 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.OneToMany;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import prography.cakeke.server.common.Core;
+import prography.cakeke.server.common.domain.Core;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 
 @Entity
@@ -46,6 +48,12 @@ public class Store extends Core {
     @Column(nullable = false)
     private Double longitude;
 
+    @Column(nullable = true)
+    private String thumbnail;
+
+    @ElementCollection(fetch = FetchType.LAZY)
+    private List<String> imageUrls;
+
     @Builder
     public Store(
             String name,
@@ -63,6 +71,18 @@ public class Store extends Core {
         this.location = location;
         this.latitude = latitude;
         this.longitude = longitude;
+    }
+
+    // 대표 이미지는 교체될 수 있습니다.
+    public Store uploadThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+        return this;
+    }
+
+    // 케이크 이미지는 교체되지 않고 추가됩니다.
+    public Store uploadImageUrls(List<String> imageUrls) {
+        this.imageUrls.addAll(imageUrls);
+        return this;
     }
 
     public StoreResponse toResponse() {

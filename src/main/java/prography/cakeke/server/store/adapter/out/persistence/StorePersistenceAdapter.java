@@ -5,6 +5,7 @@ import static com.querydsl.core.group.GroupBy.list;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
@@ -20,6 +21,7 @@ import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.QStore;
 import prography.cakeke.server.store.domain.QStoreAndTag;
 import prography.cakeke.server.store.domain.QStoreTag;
+import prography.cakeke.server.store.domain.Store;
 
 @Repository
 @RequiredArgsConstructor
@@ -81,5 +83,10 @@ public class StorePersistenceAdapter implements LoadStorePort {
                                 )
                         )
                 );
+    }
+
+    @Override
+    public Optional<Store> getByName(String name) {
+        return storeRepository.findByName(name);
     }
 }

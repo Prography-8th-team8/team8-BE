@@ -6,10 +6,9 @@ import java.util.stream.Collectors;
 
 import com.querydsl.core.annotations.QueryProjection;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.experimental.SuperBuilder;
 import prography.cakeke.server.store.domain.City;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
@@ -17,8 +16,7 @@ import prography.cakeke.server.store.domain.StoreTag;
 import prography.cakeke.server.store.domain.StoreType;
 
 @Getter
-@NoArgsConstructor
-@SuperBuilder
+@AllArgsConstructor
 public class StoreResponse {
 
     Long id;
@@ -41,6 +39,10 @@ public class StoreResponse {
 
     Double longitude;
 
+    String thumbnail;
+
+    List<String> imageUrls;
+
     List<StoreType> storeTypes;
 
     @Builder
@@ -58,6 +60,8 @@ public class StoreResponse {
         this.location = store.getLocation();
         this.latitude = store.getLatitude();
         this.longitude = store.getLongitude();
+        this.thumbnail = store.getThumbnail();
+        this.imageUrls = store.getImageUrls();
         this.storeTypes = storeTag != null ?
                           storeTag.stream().map(StoreTag::getStoreType).collect(Collectors.toList())
                                            : List.of();

@@ -3,6 +3,7 @@ package prography.cakeke.server.image.application.service;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,13 +20,20 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.image.adapter.in.web.response.UploadImageResponse;
 import prography.cakeke.server.image.application.port.in.ImageUseCase;
+import prography.cakeke.server.image.exceptions.InvalidFileNameException;
+import prography.cakeke.server.image.exceptions.NotSupportedFileFormatException;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class ImageService implements ImageUseCase {
+
+    private static final List<String> FILETYPE = Arrays.asList(
+            "image/jpeg",
+            "image/png",
+            "image/jpg"
+    );
 
     private final AmazonS3 amazonS3;
 
@@ -43,10 +51,11 @@ public class ImageService implements ImageUseCase {
      * @return 업로드된 이미지 url 리스트
      */
     @Override
-    public UploadImageResponse uploadImage(List<MultipartFile> multipartFiles) {
+    public List<String> uploadImages(List<MultipartFile> multipartFiles) {
         List<String> fileNameList = new ArrayList<>();
 
         multipartFiles.forEach(file -> {
+            mimeValidation(file.getContentType());
             String fileName = dirName + createFileName(file.getOriginalFilename());
             ObjectMetadata objectMetadata = new ObjectMetadata();
             objectMetadata.setContentLength(file.getSize());
@@ -59,7 +68,13 @@ public class ImageService implements ImageUseCase {
             }
             fileNameList.add(baseUrl + fileName);
         });
-        return new UploadImageResponse(fileNameList);
+        return fileNameList;
+    }
+
+    private void mimeValidation(String mime) {
+        if (!FILETYPE.contains(mime)) {
+            throw new NotSupportedFileFormatException(mime);
+        }
     }
 
     private String createFileName(String fileName) {
@@ -70,7 +85,7 @@ public class ImageService implements ImageUseCase {
         try {
             return fileName.substring(fileName.lastIndexOf("."));
         } catch (StringIndexOutOfBoundsException e) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "잘못된 형식의 파일(" + fileName + ") 입니다.");
+            throw new InvalidFileNameException();
         }
     }
 }
