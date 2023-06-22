@@ -18,6 +18,7 @@ import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.exceptions.NotAllowedLocationException;
 import prography.cakeke.server.store.exceptions.NotFoundStoreException;
 
 @Service
@@ -45,6 +46,7 @@ public class StoreService implements StoreUseCase {
      */
     @Override
     public List<StoreResponse> getList(List<District> district, int page) {
+        // southwestLatitude, southwestLongitude, northeastLatitude, northeastLongitude는 null
         return loadStorePort.getList(district, PageRequest.of(page - 1, 100), null, null, null, null);
     }
 
@@ -63,6 +65,15 @@ public class StoreService implements StoreUseCase {
             Double southwestLatitude, Double southwestLongitude,
             Double northeastLatitude, Double northeastLongitude
     ) {
+        // 서울시 외곽의 서비스 불가 지역 체크
+        if (northeastLatitude < 37.4289 || southwestLatitude > 37.7010) {
+            throw new NotAllowedLocationException();
+        }
+        if (northeastLongitude < 126.7649 || southwestLongitude > 127.1839) {
+            throw new NotAllowedLocationException();
+        }
+
+        // district는 null
         return loadStorePort.getList(
                 null, PageRequest.of(page - 1, 100),
                 southwestLatitude, southwestLongitude,
