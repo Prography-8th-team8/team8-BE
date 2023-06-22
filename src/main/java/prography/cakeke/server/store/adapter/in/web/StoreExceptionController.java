@@ -11,7 +11,7 @@ import prography.cakeke.server.store.exceptions.NotFoundStoreException;
 public class StoreExceptionController {
 
     @ExceptionHandler(value = NotFoundStoreException.class)
-    public ResponseEntity<String> notFoundStoreException(NotFoundStoreException exception) {
+    protected ResponseEntity<String> notFoundStoreException(NotFoundStoreException exception) {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(exception.getMessage());
     }
 

@@ -17,7 +17,7 @@ public class ImageExceptionController {
     }
 
     @ExceptionHandler(value = NotSupportedFileFormatException.class)
-    public ResponseEntity<String> notSupportedFileFormatException(
+    protected ResponseEntity<String> notSupportedFileFormatException(
             NotSupportedFileFormatException exception) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception.getMessage());
     }
