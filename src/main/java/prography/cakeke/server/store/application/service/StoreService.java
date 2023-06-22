@@ -25,6 +25,11 @@ import prography.cakeke.server.store.exceptions.NotFoundStoreException;
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class StoreService implements StoreUseCase {
+    private static final Integer PAGE_SIZE = 100;   // 한 페이지당 사이즈
+    private static final Double SEOUL_SOUTHWEST_LATITUDE = 37.4289;   // 남서쪽 위도
+    private static final Double SEOUL_SOUTHWEST_LONGITUDE = 126.7649;     // 남서쪽 경도
+    private static final Double SEOUL_NORTHEAST_LATITUDE = 37.7010;     // 북동쪽 위도
+    private static final Double SEOUL_NORTHEAST_LONGITUDE = 127.1839;    // 북동쪽 경도
 
     private final LoadNaverSearchApiPort loadNaverSearchApiPort;
     private final LoadStorePort loadStorePort;
@@ -47,7 +52,7 @@ public class StoreService implements StoreUseCase {
     @Override
     public List<StoreResponse> getList(List<District> district, int page) {
         // southwestLatitude, southwestLongitude, northeastLatitude, northeastLongitude는 null
-        return loadStorePort.getList(district, PageRequest.of(page - 1, 100), null, null, null, null);
+        return loadStorePort.getList(district, PageRequest.of(page - 1, PAGE_SIZE), null, null, null, null);
     }
 
     /**
@@ -66,16 +71,16 @@ public class StoreService implements StoreUseCase {
             Double northeastLatitude, Double northeastLongitude
     ) {
         // 서울시 외곽의 서비스 불가 지역 체크
-        if (northeastLatitude < 37.4289 || southwestLatitude > 37.7010) {
+        if (northeastLatitude < SEOUL_SOUTHWEST_LATITUDE || southwestLatitude > SEOUL_NORTHEAST_LATITUDE) {
             throw new NotAllowedLocationException();
         }
-        if (northeastLongitude < 126.7649 || southwestLongitude > 127.1839) {
+        if (northeastLongitude < SEOUL_SOUTHWEST_LONGITUDE || southwestLongitude > SEOUL_NORTHEAST_LONGITUDE) {
             throw new NotAllowedLocationException();
         }
 
         // district는 null
         return loadStorePort.getList(
-                null, PageRequest.of(page - 1, 100),
+                null, PageRequest.of(page - 1, PAGE_SIZE),
                 southwestLatitude, southwestLongitude,
                 northeastLatitude, northeastLongitude
         );

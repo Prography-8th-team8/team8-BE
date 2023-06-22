@@ -3,6 +3,8 @@ package prography.cakeke.server.store.domain;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.annotations.BatchSize;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -51,6 +53,7 @@ public class Store extends Core {
     @Column(nullable = true)
     private String thumbnail;
 
+    @BatchSize(size = 100)
     @ElementCollection(fetch = FetchType.LAZY)
     private List<String> imageUrls;
 
