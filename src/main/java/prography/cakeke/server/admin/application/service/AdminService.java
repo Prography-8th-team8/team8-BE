@@ -17,6 +17,7 @@ import prography.cakeke.server.store.domain.Store;
 @Transactional(readOnly = true)
 public class AdminService implements AdminUseCase {
 
+    private static final Integer REPRESENTATIVE_INDEX = 0;    // 0번째 업로드 되는 사진은 대표사진
     private final StoreUseCase storeUseCase;
     private final ImageUseCase imageUseCase;
 
@@ -32,11 +33,11 @@ public class AdminService implements AdminUseCase {
         Store store = storeUseCase.getByName(storeName);
         List<String> imageLinks = imageUseCase.uploadImages(files);
 
-        // 대표이미지 먼저 바꾼다.
-        store.uploadThumbnail(imageLinks.get(0));
+        // 대표이미지 먼저 바꾼다. (업로드 할 떄, 0번째 업로드 되는 사진은 대표사진이라는 제약이 있다.)
+        store.uploadThumbnail(imageLinks.get(REPRESENTATIVE_INDEX));
         // imageLinks의 첫 번째인 대표이미지를 제외한 나머지 사진들은 모두 이미지 필드에 추가한다.
-        imageLinks.remove(0);
-        store.uploadImage(imageLinks);
+        imageLinks.remove(REPRESENTATIVE_INDEX);
+        store.uploadImageUrls(imageLinks);
 
         return store;
     }
