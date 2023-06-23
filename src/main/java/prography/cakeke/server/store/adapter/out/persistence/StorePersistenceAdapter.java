@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -46,13 +47,19 @@ public class StorePersistenceAdapter implements LoadStorePort {
     }
 
     @Override
-    public List<StoreResponse> getList(List<District> district, Pageable pageable) {
+    public List<StoreResponse> getList(
+            List<District> district, Pageable pageable,
+            Double southwestLatitude, Double southwestLongitude,
+            Double northeastLatitude, Double northeastLongitude
+    ) {
         return queryFactory
                 .selectFrom(store)
                 .leftJoin(store.storeAndTagList, storeAndTag)
                 .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(
-                        store.district.in(district)
+                        storeDistrictIn(district),
+                        storeLongitudeBetween(southwestLongitude, northeastLongitude),
+                        storeLatitudeBetween(southwestLatitude, northeastLatitude)
                 )
                 .distinct()
                 .offset(pageable.getOffset())
@@ -88,5 +95,19 @@ public class StorePersistenceAdapter implements LoadStorePort {
     @Override
     public Optional<Store> getByName(String name) {
         return storeRepository.findByName(name);
+    }
+
+    private BooleanExpression storeDistrictIn(List<District> district) {
+        return district != null ? store.district.in(district) : null;
+    }
+
+    private BooleanExpression storeLongitudeBetween(Double southwestLongitude, Double northeastLongitude) {
+        return southwestLongitude != null || northeastLongitude != null ?
+               store.longitude.between(southwestLongitude, northeastLongitude) : null;
+    }
+
+    private BooleanExpression storeLatitudeBetween(Double southwestLatitude, Double northeastLatitude) {
+        return southwestLatitude != null || northeastLatitude != null ?
+               store.latitude.between(southwestLatitude, northeastLatitude) : null;
     }
 }
