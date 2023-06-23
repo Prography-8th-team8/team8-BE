@@ -17,7 +17,7 @@ import prography.cakeke.server.store.domain.Store;
 @Transactional(readOnly = true)
 public class AdminService implements AdminUseCase {
 
-    private static final Integer REPRESENTATIVE_INDEX = 0;    // 0번째 업로드 되는 사진은 대표사진
+    private static final int REPRESENTATIVE_INDEX = 0;    // 0번째 업로드 되는 사진은 대표사진
     private final StoreUseCase storeUseCase;
     private final ImageUseCase imageUseCase;
 
