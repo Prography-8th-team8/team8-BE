@@ -10,12 +10,13 @@ import prography.cakeke.server.store.adapter.in.web.response.DistrictCountRespon
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreType;
 
 public interface LoadStorePort {
     List<DistrictCountResponse> getDistrictCount();
 
     List<StoreResponse> getList(
-            List<District> district, Pageable pageable,
+            List<District> district, List<StoreType> storeTypes, Pageable pageable,
             Double southwestLongitude, Double northeastLongitude,
             Double southwestLatitude, Double northeastLatitude
     );

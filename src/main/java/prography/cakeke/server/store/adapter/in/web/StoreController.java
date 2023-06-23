@@ -17,6 +17,7 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.StoreType;
 
 @RestController
 @RequestMapping("/api/store")
@@ -34,14 +35,16 @@ public class StoreController {
     @GetMapping("/list")
     public ResponseEntity<List<StoreResponse>> getList(
             @RequestParam(value = "district") List<District> district,
+            @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page
     ) {
-        return ResponseEntity.ok().body(this.storeUseCase.getList(district, page));
+        return ResponseEntity.ok().body(this.storeUseCase.getList(district, storeTypes, page));
     }
 
     @Operation(description = "이 지역 재검색")
     @GetMapping("/reload")
     public ResponseEntity<List<StoreResponse>> reload(
+            @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
             @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
             @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
@@ -50,7 +53,7 @@ public class StoreController {
     ) {
         return ResponseEntity.ok().body(
                 this.storeUseCase.reload(
-                        page,
+                        storeTypes, page,
                         southwestLatitude, southwestLongitude,
                         northeastLatitude, northeastLongitude
                 )
