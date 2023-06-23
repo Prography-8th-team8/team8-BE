@@ -8,5 +8,7 @@ public enum StoreType {
     RICE,
     FLOWER,
     PHOTO,
-    FIGURE
+    FIGURE,
+    LUXURY,
+    ETC,
 }
