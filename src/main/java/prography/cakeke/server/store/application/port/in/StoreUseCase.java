@@ -8,14 +8,15 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreType;
 
 public interface StoreUseCase {
     List<DistrictCountResponse> getCount();
 
-    List<StoreResponse> getList(List<District> district, int page);
+    List<StoreResponse> getList(List<District> district, List<StoreType> storeTypes, int page);
 
     List<StoreResponse> reload(
-            int page,
+            List<StoreType> storeTypes, int page,
             Double southwestLatitude, Double southwestLongitude,
             Double northeastLatitude, Double northeastLongitude
     );

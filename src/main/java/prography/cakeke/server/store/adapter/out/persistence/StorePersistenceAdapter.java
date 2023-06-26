@@ -23,6 +23,7 @@ import prography.cakeke.server.store.domain.QStore;
 import prography.cakeke.server.store.domain.QStoreAndTag;
 import prography.cakeke.server.store.domain.QStoreTag;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreType;
 
 @Repository
 @RequiredArgsConstructor
@@ -48,7 +49,7 @@ public class StorePersistenceAdapter implements LoadStorePort {
 
     @Override
     public List<StoreResponse> getList(
-            List<District> district, Pageable pageable,
+            List<District> district, List<StoreType> storeTypes, Pageable pageable,
             Double southwestLatitude, Double southwestLongitude,
             Double northeastLatitude, Double northeastLongitude
     ) {
@@ -58,6 +59,7 @@ public class StorePersistenceAdapter implements LoadStorePort {
                 .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(
                         storeDistrictIn(district),
+                        storeTypeIn(storeTypes),
                         storeLongitudeBetween(southwestLongitude, northeastLongitude),
                         storeLatitudeBetween(southwestLatitude, northeastLatitude)
                 )
@@ -99,6 +101,10 @@ public class StorePersistenceAdapter implements LoadStorePort {
 
     private BooleanExpression storeDistrictIn(List<District> district) {
         return district != null ? store.district.in(district) : null;
+    }
+
+    private BooleanExpression storeTypeIn(List<StoreType> storeTypes) {
+        return storeTypes != null ? storeTag.storeType.in(storeTypes) : null;
     }
 
     private BooleanExpression storeLongitudeBetween(Double southwestLongitude, Double northeastLongitude) {
