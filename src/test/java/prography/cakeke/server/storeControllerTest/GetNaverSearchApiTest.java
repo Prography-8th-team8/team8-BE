@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import prography.cakeke.server.common.BaseTest;
+import prography.cakeke.server.store.exceptions.JsonResponseErrorException;
 
 public class GetNaverSearchApiTest extends BaseTest {
     @Test
@@ -55,7 +56,7 @@ public class GetNaverSearchApiTest extends BaseTest {
                 JSONObject rjson = new JSONObject(responseBody);
                 jsonResult = rjson.getJSONArray("items");
             } catch (JSONException e) {
-                e.printStackTrace();
+                throw new JsonResponseErrorException();
             }
         }
 
