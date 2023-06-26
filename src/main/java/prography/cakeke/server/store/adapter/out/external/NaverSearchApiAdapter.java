@@ -19,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
+import prography.cakeke.server.store.exceptions.JsonResponseErrorException;
 
 @Component
 public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
@@ -68,7 +69,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
                 JSONObject rjson = new JSONObject(responseBody);
                 jsonResult = rjson.getJSONArray("items");
             } catch (JSONException e) {
-                e.printStackTrace();
+                throw new JsonResponseErrorException();
             }
         }
         return jsonResult;
