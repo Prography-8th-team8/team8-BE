@@ -3,8 +3,6 @@ package prography.cakeke.server.storeControllerTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.URI;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,13 +25,10 @@ public class GetNaverSearchApiTest extends BaseTest {
         String expectedResponse =
                 "[{\"address\":\"서울특별시 종로구 누하동 219-3 1층\",\"roadAddress\":\"서울특별시 종로구 필운대로2길 23 1층\",\"link\":\"http://instagram.com/gyeomjae.___.cake\",\"description\":\"\",\"telephone\":\"\",\"title\":\"<b>겸재케이크<\\/b>\",\"category\":\"카페,디저트>케이크전문\",\"mapy\":\"553495\",\"mapx\":\"309197\"}]";
         // when
-        ByteBuffer buffer = StandardCharsets.UTF_8.encode(testStoreName);
-        String encode = StandardCharsets.UTF_8.decode(buffer).toString();
-
         String expectedApiUrl = "https://openapi.naver.com";
         URI uri = UriComponentsBuilder.fromUriString(expectedApiUrl)
                                       .path(testLocalPath)
-                                      .queryParam("query", encode)
+                                      .queryParam("query", testStoreName)
                                       .queryParam("display", testDisplayNum)
                                       .queryParam("start", 1)
                                       .queryParam("sort", "random")

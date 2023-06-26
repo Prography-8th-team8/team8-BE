@@ -1,8 +1,6 @@
 package prography.cakeke.server.store.adapter.out.external;
 
 import java.net.URI;
-import java.nio.ByteBuffer;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,13 +36,10 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
     /** 네이버 api get */
     private JSONArray getNaverSearchApiResponse(String storeName, Integer displayNum, String sortOption,
                                                 String path) {
-        ByteBuffer buffer = StandardCharsets.UTF_8.encode(storeName);
-        String encode = StandardCharsets.UTF_8.decode(buffer).toString();
-
         URI uri = UriComponentsBuilder
                 .fromUriString("https://openapi.naver.com")
                 .path(path)
-                .queryParam("query", encode)
+                .queryParam("query", storeName)
                 .queryParam("display", displayNum)
                 .queryParam("start", 1)
                 .queryParam("sort", sortOption)
