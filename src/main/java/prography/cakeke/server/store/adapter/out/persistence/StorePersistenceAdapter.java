@@ -55,7 +55,7 @@ public class StorePersistenceAdapter implements LoadStorePort {
     ) {
         return queryFactory
                 .selectFrom(store)
-                .leftJoin(store.storeAndTagList, storeAndTag)
+                .leftJoin(store.storeAndTags, storeAndTag)
                 .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(
                         storeDistrictIn(district),
@@ -81,7 +81,7 @@ public class StorePersistenceAdapter implements LoadStorePort {
         return queryFactory
                 .select(store)
                 .from(store)
-                .leftJoin(store.storeAndTagList, storeAndTag)
+                .leftJoin(store.storeAndTags, storeAndTag)
                 .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(store.id.eq(storeId))
                 .transform(

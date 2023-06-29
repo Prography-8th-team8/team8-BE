@@ -25,7 +25,7 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 public class Store extends Core {
 
     @OneToMany(mappedBy = "store")
-    private final List<StoreAndTag> storeAndTagList = new ArrayList<>();
+    private final List<StoreAndTag> storeAndTags = new ArrayList<>();
 
     @Column(nullable = false)
     private String name;
