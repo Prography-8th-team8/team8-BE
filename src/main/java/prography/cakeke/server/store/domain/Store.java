@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.hibernate.annotations.BatchSize;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -24,7 +25,7 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Store extends Core {
 
-    @OneToMany(mappedBy = "store")
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<StoreAndTag> storeAndTags = new ArrayList<>();
 
     @Column(nullable = false)
@@ -85,6 +86,13 @@ public class Store extends Core {
     // 케이크 이미지는 교체되지 않고 추가됩니다.
     public Store uploadImageUrls(List<String> imageUrls) {
         this.imageUrls.addAll(imageUrls);
+        return this;
+    }
+
+    // 케이크 카테고리는 교체될 수 있습니다.
+    public Store updateCategory(List<StoreAndTag> storeAndTags) {
+        this.storeAndTags.clear();
+        this.storeAndTags.addAll(storeAndTags);
         return this;
     }
 
