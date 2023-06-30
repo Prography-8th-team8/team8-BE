@@ -18,18 +18,23 @@ import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
+import prography.cakeke.server.store.application.port.out.SaveStorePort;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.QStore;
 import prography.cakeke.server.store.domain.QStoreAndTag;
 import prography.cakeke.server.store.domain.QStoreTag;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreAndTag;
+import prography.cakeke.server.store.domain.StoreTag;
 import prography.cakeke.server.store.domain.StoreType;
 
 @Repository
 @RequiredArgsConstructor
-public class StorePersistenceAdapter implements LoadStorePort {
+public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort {
 
     private final StoreRepository storeRepository;
+    private final StoreTagRepository storeTagRepository;
+    private final StoreAndTagRepository storeAndTagRepository;
     private final JPAQueryFactory queryFactory;
     private final QStore store = QStore.store;
     private final QStoreAndTag storeAndTag = QStoreAndTag.storeAndTag;
@@ -97,6 +102,16 @@ public class StorePersistenceAdapter implements LoadStorePort {
     @Override
     public Optional<Store> getByName(String name) {
         return storeRepository.findByName(name);
+    }
+
+    @Override
+    public StoreTag getStoreTagByStoreTag(StoreType storeType) {
+        return storeTagRepository.findByStoreType(storeType);
+    }
+
+    @Override
+    public StoreAndTag saveStoreAndTag(StoreAndTag storeAndTag) {
+        return storeAndTagRepository.save(storeAndTag);
     }
 
     private BooleanExpression storeDistrictIn(List<District> district) {
