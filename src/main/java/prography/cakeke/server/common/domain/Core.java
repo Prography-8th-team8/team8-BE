@@ -22,7 +22,7 @@ import lombok.Getter;
 @EntityListeners(AuditingEntityListener.class)
 public abstract class Core {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
 
     @CreatedDate
