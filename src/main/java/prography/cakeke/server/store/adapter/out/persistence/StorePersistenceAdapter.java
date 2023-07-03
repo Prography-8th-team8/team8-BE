@@ -17,6 +17,7 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.application.port.out.DeleteStorePort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.application.port.out.SaveStorePort;
 import prography.cakeke.server.store.domain.District;
@@ -30,7 +31,7 @@ import prography.cakeke.server.store.domain.StoreType;
 
 @Repository
 @RequiredArgsConstructor
-public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort {
+public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, DeleteStorePort {
 
     private final StoreRepository storeRepository;
     private final StoreTagRepository storeTagRepository;
@@ -112,6 +113,11 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort {
     @Override
     public StoreAndTag saveStoreAndTag(StoreAndTag storeAndTag) {
         return storeAndTagRepository.save(storeAndTag);
+    }
+
+    @Override
+    public void deleteStoreAndTagByStoreId(Long storeId) {
+        storeAndTagRepository.deleteByStoreId(storeId);
     }
 
     private BooleanExpression storeDistrictIn(List<District> district) {
