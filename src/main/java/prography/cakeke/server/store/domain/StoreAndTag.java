@@ -16,11 +16,11 @@ import prography.cakeke.server.common.domain.Core;
 public class StoreAndTag extends Core {
 
     @ManyToOne(targetEntity = StoreTag.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_tag_id")
+    @JoinColumn(name = "store_tag_id", nullable = false)
     private StoreTag storeTag;
 
     @ManyToOne(targetEntity = Store.class, fetch = FetchType.LAZY)
-    @JoinColumn(name = "store_id")
+    @JoinColumn(name = "store_id", nullable = false)
     private Store store;
 
     @Builder
