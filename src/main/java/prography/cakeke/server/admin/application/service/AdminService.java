@@ -1,7 +1,6 @@
 package prography.cakeke.server.admin.application.service;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -69,9 +68,7 @@ public class AdminService implements AdminUseCase {
         List<StoreAndTag> category = storeTypes.stream()
                                                // StoreTypes 각 요소를 StoreTag로 변환한다.
                                                .map(loadStorePort::getStoreTagByStoreTag)
-                                               // 필터로 위에서 구한 StoreTag 중 null인 것을 걸러낸다.
-                                               .filter(Objects::nonNull)
-                                               // 걸러낸 StoreTag를 StoreAndTag에 넣고 저장해 StoreAndTag를 만든다.
+                                               // 위에서 구한 StoreTag를 StoreAndTag의 StoreTag에 넣고 저장해 StoreAndTag를 만든다.
                                                .map(it -> saveStorePort.saveStoreAndTag(
                                                        StoreAndTag.builder()
                                                                   .storeTag(it)
