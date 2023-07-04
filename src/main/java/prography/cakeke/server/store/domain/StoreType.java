@@ -9,5 +9,7 @@ public enum StoreType {
     FLOWER,
     PHOTO,
     FIGURE,
+    LUXURY,
+    SOLID,
     ETC,
 }
