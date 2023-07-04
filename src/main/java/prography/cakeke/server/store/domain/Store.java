@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.hibernate.annotations.BatchSize;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
@@ -25,7 +24,8 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Store extends Core {
 
-    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, orphanRemoval = true)
+    @BatchSize(size = 10)
+    @OneToMany(mappedBy = "store")
     private final List<StoreAndTag> storeAndTags = new ArrayList<>();
 
     @Column(nullable = false)

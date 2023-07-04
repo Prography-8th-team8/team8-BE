@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.admin.application.port.in.AdminUseCase;
 import prography.cakeke.server.image.application.port.in.ImageUseCase;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
+import prography.cakeke.server.store.application.port.out.DeleteStorePort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.application.port.out.SaveStorePort;
 import prography.cakeke.server.store.domain.Store;
@@ -27,6 +28,7 @@ public class AdminService implements AdminUseCase {
     private final ImageUseCase imageUseCase;
     private final SaveStorePort saveStorePort;
     private final LoadStorePort loadStorePort;
+    private final DeleteStorePort deleteStorePort;
 
     /**
      * 해당 가게의 대표이미지와 이미지를 업로드합니다.
@@ -60,8 +62,11 @@ public class AdminService implements AdminUseCase {
     public Store updateCategory(String storeName, List<StoreType> storeTypes) {
         Store store = storeUseCase.getByName(storeName);
 
+        // 기존에 존재하던 store의 storeAndTag를 삭제시킨다.
+        deleteStorePort.deleteStoreAndTagByStoreId(store.getId());
+
         List<StoreAndTag> category = storeTypes.stream()
-                                               // StoreTypes 각 요소를 StoreTag로 변환시킨다.
+                                               // StoreTypes 각 요소를 StoreTag로 변환한다.
                                                .map(loadStorePort::getStoreTagByStoreTag)
                                                // 위에서 구한 StoreTag를 StoreAndTag의 StoreTag에 넣고 저장해 StoreAndTag를 만든다.
                                                .map(it -> saveStorePort.saveStoreAndTag(
