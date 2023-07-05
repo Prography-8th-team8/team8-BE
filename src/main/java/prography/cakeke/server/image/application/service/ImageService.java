@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.image.application.port.in.ImageUseCase;
 import prography.cakeke.server.image.exceptions.NotSupportedFileFormatException;
-import prography.cakeke.server.store.application.port.out.LoadS3Port;
+import prography.cakeke.server.store.application.port.out.UploadS3Port;
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +24,7 @@ public class ImageService implements ImageUseCase {
             "image/jpg"
     );
 
-    private final LoadS3Port loadS3Port;
+    private final UploadS3Port uploadS3Port;
 
     /**
      * 이미지들을 s3에 업로드합니다.
@@ -36,7 +36,7 @@ public class ImageService implements ImageUseCase {
 
         multipartFiles.forEach(file -> {
             mimeValidation(file.getContentType());
-            String fileLink = loadS3Port.uploadS3(file);
+            String fileLink = uploadS3Port.uploadS3(file);
             fileNameList.add(fileLink);
         });
         return fileNameList;

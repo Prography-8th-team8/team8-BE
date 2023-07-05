@@ -17,11 +17,11 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.image.exceptions.InvalidFileNameException;
-import prography.cakeke.server.store.application.port.out.LoadS3Port;
+import prography.cakeke.server.store.application.port.out.UploadS3Port;
 
 @Component
 @RequiredArgsConstructor
-public class AwsS3Adapter implements LoadS3Port {
+public class AwsS3Adapter implements UploadS3Port {
 
     private final AmazonS3 amazonS3;
 
