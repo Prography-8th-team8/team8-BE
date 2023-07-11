@@ -37,7 +37,7 @@ class StoreServiceTest extends BaseTest {
     }
 
     // 가게 및 태그 생성
-    public void createStoreWithTag() {
+    private void createStoreWithTag() {
         Store testStore = buildStore();
         StoreTag testStoreTag = buildStoreTag();
         StoreAndTag testStoreAndTag = buildStoreAndTag(testStore, testStoreTag);

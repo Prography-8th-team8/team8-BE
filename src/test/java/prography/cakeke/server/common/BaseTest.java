@@ -36,7 +36,7 @@ public class BaseTest {
     @Autowired
     protected StoreService storeService;
 
-    public Store buildStore() {
+    protected Store buildStore() {
         return Store.builder()
                     .city(testCity)
                     .district(testDistrict)
@@ -48,11 +48,11 @@ public class BaseTest {
                     .build();
     }
 
-    public StoreTag buildStoreTag() {
+    protected StoreTag buildStoreTag() {
         return new StoreTag(testStoreType);
     }
 
-    public StoreAndTag buildStoreAndTag(Store store, StoreTag storeTag) {
+    protected StoreAndTag buildStoreAndTag(Store store, StoreTag storeTag) {
         return StoreAndTag.builder()
                           .storeTag(storeTag)
                           .store(store)
