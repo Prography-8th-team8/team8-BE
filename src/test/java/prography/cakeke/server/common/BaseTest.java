@@ -7,6 +7,9 @@ import prography.cakeke.server.store.application.service.StoreService;
 import prography.cakeke.server.store.domain.City;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreAndTag;
+import prography.cakeke.server.store.domain.StoreTag;
+import prography.cakeke.server.store.domain.StoreType;
 
 @SpringBootTest
 public class BaseTest {
@@ -29,7 +32,7 @@ public class BaseTest {
     protected final Double testLongitude = 127.0340836;
     protected final String testName = "케이크크";
     protected final String testShareLink = "https://naver.me/cakk";
-
+    protected final StoreType testStoreType = StoreType.CHARACTER;
     @Autowired
     protected StoreService storeService;
 
@@ -43,6 +46,17 @@ public class BaseTest {
                     .name(testName)
                     .shareLink(testShareLink)
                     .build();
+    }
+
+    public StoreTag buildStoreTag() {
+        return new StoreTag(testStoreType);
+    }
+
+    public StoreAndTag buildStoreAndTag(Store store, StoreTag storeTag) {
+        return StoreAndTag.builder()
+                          .storeTag(storeTag)
+                          .store(store)
+                          .build();
     }
 
 }
