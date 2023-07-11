@@ -1,37 +1,48 @@
 package prography.cakeke.server.common;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import prography.cakeke.server.store.application.service.StoreService;
+import prography.cakeke.server.store.domain.City;
+import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.Store;
 
-@AutoConfigureMockMvc
 @SpringBootTest
-@Transactional
-@Rollback
 public class BaseTest {
-    @Autowired
-    public MockMvc mockMvc;
+//    @Autowired
+//    public MockMvc mockMvc;
+
+//    @Value("${api.naver.search.localpath}")
+//    public String testLocalPath;
+//
+//    @Value("${api.naver.search.clientID}")
+//    public String testClientID;
+//
+//    @Value("${api.naver.search.clientSecretKey}")
+//    public String testClientSecretKey;
+
+    protected final City testCity = City.SEOUL;
+    protected final District testDistrict = District.GANGNAM;
+    protected final Double testLatitude = 37.5085138;
+    protected final String testLocation = "서울 강남구 테헤란로 1";
+    protected final Double testLongitude = 127.0340836;
+    protected final String testName = "케이크크";
+    protected final String testShareLink = "https://naver.me/cakk";
 
     @Autowired
-    public StoreService storeService;
+    protected StoreService storeService;
 
-    @Value("${api.naver.search.localpath}")
-    public String testLocalPath;
-
-    @Value("${api.naver.search.clientID}")
-    public String testClientID;
-
-    @Value("${api.naver.search.clientSecretKey}")
-    public String testClientSecretKey;
-
-    public String testStoreName = "겸재케이크";
-    public Integer testDisplayNum = 1;
-    public Long testStoreId = 2L;
+    public Store buildStore() {
+        return Store.builder()
+                    .city(testCity)
+                    .district(testDistrict)
+                    .latitude(testLatitude)
+                    .location(testLocation)
+                    .longitude(testLongitude)
+                    .name(testName)
+                    .shareLink(testShareLink)
+                    .build();
+    }
 
 }
