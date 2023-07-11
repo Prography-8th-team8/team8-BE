@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import prography.cakeke.server.common.BaseTest;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.out.persistence.StoreAndTagRepository;
 import prography.cakeke.server.store.adapter.out.persistence.StoreRepository;
@@ -38,7 +40,7 @@ class StoreServiceTest extends BaseTest {
 
     // 가게 및 태그 생성
     private void createStoreWithTag() {
-        Store testStore = buildStore();
+        Store testStore = buildStore(testName);
         StoreTag testStoreTag = buildStoreTag();
         StoreAndTag testStoreAndTag = buildStoreAndTag(testStore, testStoreTag);
 
@@ -47,9 +49,18 @@ class StoreServiceTest extends BaseTest {
         storeAndTagRepository.save(testStoreAndTag);
     }
 
+    private void createNaverStore() {
+        Store testStore = buildStore(testNaverStoreName);
+        storeRepository.save(testStore);
+    }
+
     @BeforeEach
     void setup() {
+        // 가게 생성
         createStoreWithTag();
+
+        // 외부 테스트용 가게 생성
+        createNaverStore();
     }
 
     @Test
@@ -95,6 +106,39 @@ class StoreServiceTest extends BaseTest {
         assertThat(testStoreResponseList.get(0).getLongitude()).isEqualTo(testLongitude);
         assertThat(testStoreResponseList.get(0).getName()).isEqualTo(testName);
         assertThat(testStoreResponseList.get(0).getShareLink()).isEqualTo(testShareLink);
+        assertThat(testStoreResponseList.get(0).getStoreTypes().get(0)).isEqualTo(testStoreType);
+    }
+
+    @Test
+    @DisplayName("가게 상세정보 + 네이버 검색 테스트(성공)")
+    public void getStoreDetailTestSuccess() {
+        Long testStoreId = storeRepository.findByName(testNaverStoreName).get().getId();
+        StoreDetailResponse testStoreDetailResponse = storeService.getStoreDetail(testStoreId);
+
+        assertThat(testStoreDetailResponse.getAddress()).isEqualTo(testNaverStoreAddress);
+    }
+
+    @Test
+    @DisplayName("가게 네이버 블로그 테스트(성공)")
+    public void getStoreBlogTestSuccess() {
+        Long testStoreId = storeRepository.findByName(testNaverStoreName).get().getId();
+        StoreBlogResponse testStoreBlogResponse = storeService.getStoreBlog(testStoreId, 2);
+
+        assertThat(testStoreBlogResponse.getBlogPosts()).hasSize(2);
+    }
+
+    @Test
+    @DisplayName("가게 정보 반환 테스트(성공)")
+    public void getStoreByNameTestSuccess() {
+        Store testStore = storeService.getByName(testName);
+
+        assertThat(testStore.getCity()).isEqualTo(testCity);
+        assertThat(testStore.getDistrict()).isEqualTo(testDistrict);
+        assertThat(testStore.getLatitude()).isEqualTo(testLatitude);
+        assertThat(testStore.getLocation()).isEqualTo(testLocation);
+        assertThat(testStore.getLongitude()).isEqualTo(testLongitude);
+        assertThat(testStore.getName()).isEqualTo(testName);
+        assertThat(testStore.getShareLink()).isEqualTo(testShareLink);
     }
 
 }
