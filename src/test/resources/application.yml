@@ -1,0 +1,50 @@
+jasypt:
+  encryptor:
+    bean: jasyptStringEncryptor
+    password: ${JASYPT_ENCRYPTOR_PASSWORD}
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:test;MODE=PostgreSQL;CASE_INSENSITIVE_IDENTIFIERS=true
+    #    DATABASE_TO_UPPER=false;
+    username: sa
+    password:
+    sql:
+      init:
+        mode: always
+        schema-locations: classpath:schema.sql
+        data-locations: classpath:data.sql
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - info
+          - health
+          - prometheus
+
+api:
+  naver:
+    search:
+      localpath: ENC(KfaxjmTlmWftq0uisJNgU9CQ1SDvpF3bWQcAURLYpmw=)
+      blogpath: ENC(GSlS/0x3C91TAgBEOuTyLCCG+XjXyjZPZ/stWvmnm0A=)
+      clientID: ENC(rt5zrLvQPfnCPYra/zC/4R+b47ZTaJy84yWh5NJeajU=)
+      clientSecretKey: ENC(PYFTLxiIsAm50Hte4UuNbE3Y/qhDFDu9)
+
+cloud:
+  aws:
+    s3:
+      store-dir: ENC(HseDdFjRi4jBbzg6LnYLfSGR0U0uKfZi)
+      bucket: ENC(CdA/ANM1IBbdFzyS8txqrLjUlyshePcMmFQwI6ITZTc=)
+      base-url: ENC(mH1WlvOeLLxpFLE6OPIkOEeB7QUkR6rC43/of4dNcrKZYBhQ1puru8Ui+MLBK5OYWCRd9oNZHXlytqhiYngPap1FYu5YCsAx)
+    credentials:
+      access-key: ENC(VOhTXdORlD6rMtgeLCfXwaMeHApQ2DcWPPZ7+5TcGcQ=)
+      secret-key: ENC(OXI/M8iA3aLXC9m/ZlpbRx2TCE+qvNnQ0as537IipDxPfhjewDio7yqjtOMsb5R7fEglWrr2gRg=)
+    region:
+      static: ENC(DuFeqGnbpXB+SLeKphzN9dAQ2St93qOA)
