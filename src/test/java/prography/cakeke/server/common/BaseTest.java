@@ -1,11 +1,9 @@
 package prography.cakeke.server.common;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
-import prography.cakeke.server.store.application.service.StoreService;
 import prography.cakeke.server.store.domain.City;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
@@ -28,8 +26,6 @@ public class BaseTest {
 
     protected final String testNaverStoreName = "끌레르 봉봉";
     protected final String testNaverStoreAddress = "서울특별시 강남구 논현로114길 8 1층 103호 끌레르봉봉";
-    @Autowired
-    protected StoreService storeService;
 
     protected Store buildStore(String storeName) {
         return Store.builder()

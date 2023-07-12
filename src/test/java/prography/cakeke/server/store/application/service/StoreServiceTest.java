@@ -26,6 +26,8 @@ import prography.cakeke.server.store.domain.StoreType;
 
 class StoreServiceTest extends BaseTest {
     @Autowired
+    protected StoreService storeService;
+    @Autowired
     private StoreRepository storeRepository;
     @Autowired
     private StoreTagRepository storeTagRepository;
@@ -69,7 +71,11 @@ class StoreServiceTest extends BaseTest {
     public void getStoreListTestSuccess() {
         List<District> testDistrictList = new ArrayList<>();
         testDistrictList.add(testDistrict);
-        List<StoreResponse> testStoreResponseList = storeService.getList(testDistrictList, null, 1);
+
+        List<StoreType> testStoreTypeList = new ArrayList<>();
+        testStoreTypeList.add(testStoreType);
+        List<StoreResponse> testStoreResponseList = storeService.getList(testDistrictList, testStoreTypeList,
+                                                                         1);
 
         assertThat(testStoreResponseList.get(0).getCity()).isEqualTo(testCity);
         assertThat(testStoreResponseList.get(0).getDistrict()).isEqualTo(testDistrict);
@@ -78,6 +84,7 @@ class StoreServiceTest extends BaseTest {
         assertThat(testStoreResponseList.get(0).getLongitude()).isEqualTo(testLongitude);
         assertThat(testStoreResponseList.get(0).getName()).isEqualTo(testName);
         assertThat(testStoreResponseList.get(0).getShareLink()).isEqualTo(testShareLink);
+        assertThat(testStoreResponseList.get(0).getStoreTypes()).isEqualTo(testStoreTypeList);
     }
 
     @Test
