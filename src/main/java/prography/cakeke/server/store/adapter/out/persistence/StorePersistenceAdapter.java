@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -63,13 +64,20 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
                 .selectFrom(store)
                 .where(
                         storeDistrictIn(district),
-                        storeTypeIn(storeTypes),
                         storeLongitudeBetween(southwestLongitude, northeastLongitude),
-                        storeLatitudeBetween(southwestLatitude, northeastLatitude)
+                        storeLatitudeBetween(southwestLatitude, northeastLatitude),
+                        store.id.in(
+                                JPAExpressions
+                                        .select(storeAndTag.store.id)
+                                        .from(storeAndTag)
+                                        .leftJoin(storeAndTag.storeTag, storeTag)
+                                        .where(storeTypeIn(storeTypes))
+                        )
                 )
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
+                .orderBy(store.id.asc())
                 .fetch();
     }
 
