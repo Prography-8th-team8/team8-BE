@@ -100,6 +100,8 @@ class StoreServiceTest extends BaseTest {
                                                                         testLatitude + TEST_ALPHA,
                                                                         testLongitude + TEST_ALPHA);
 
+        assertThat(testStoreResponseList).hasSize(1);
+
         assertThat(testStoreResponseList.get(0).getCity()).isEqualTo(testCity);
         assertThat(testStoreResponseList.get(0).getDistrict()).isEqualTo(testDistrict);
         assertThat(testStoreResponseList.get(0).getLatitude()).isEqualTo(testLatitude);
