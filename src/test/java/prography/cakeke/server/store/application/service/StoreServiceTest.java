@@ -1,4 +1,4 @@
-package prography.cakeke.server.StoreServiceTest;
+package prography.cakeke.server.store.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -25,18 +25,12 @@ import prography.cakeke.server.store.domain.StoreTag;
 import prography.cakeke.server.store.domain.StoreType;
 
 class StoreServiceTest extends BaseTest {
-    private final StoreRepository storeRepository;
-    private final StoreTagRepository storeTagRepository;
-    private final StoreAndTagRepository storeAndTagRepository;
-
     @Autowired
-    StoreServiceTest(StoreRepository storeRepository,
-                     StoreTagRepository storeTagRepository,
-                     StoreAndTagRepository storeAndTagRepository) {
-        this.storeRepository = storeRepository;
-        this.storeTagRepository = storeTagRepository;
-        this.storeAndTagRepository = storeAndTagRepository;
-    }
+    private StoreRepository storeRepository;
+    @Autowired
+    private StoreTagRepository storeTagRepository;
+    @Autowired
+    private StoreAndTagRepository storeAndTagRepository;
 
     // 가게 및 태그 생성
     private void createStoreWithTag() {
