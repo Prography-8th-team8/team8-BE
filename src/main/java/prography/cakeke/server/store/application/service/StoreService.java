@@ -36,8 +36,8 @@ public class StoreService implements StoreUseCase {
     private final LoadStorePort loadStorePort;
 
     /**
-     * 각 구별 가게 개수를 반환합니다.
-     * @return 각 구별 가개 개수
+     * 각 구별 가게의 개수를 반환합니다.
+     * @return 각 구별 가게의 개수
      */
     @Override
     public List<DistrictCountResponse> getCount() {
