@@ -16,7 +16,7 @@ import prography.cakeke.server.store.domain.StoreType;
 public interface LoadStorePort {
     List<DistrictCountResponse> getDistrictCount();
 
-    List<StoreResponse> getList(
+    List<Store> getList(
             List<District> district, List<StoreType> storeTypes, Pageable pageable,
             Double southwestLongitude, Double northeastLongitude,
             Double southwestLatitude, Double northeastLatitude
@@ -28,4 +28,5 @@ public interface LoadStorePort {
 
     StoreTag getStoreTagByStoreTag(StoreType storeType);
 
+    List<StoreTag> getStoreTagByStoreId(Long storeId);
 }

@@ -45,6 +45,22 @@ public class StoreResponse {
 
     List<StoreType> storeTypes;
 
+    public StoreResponse(Store store) {
+        this.id = store.getId();
+        this.createdAt = store.getCreatedAt();
+        this.modifiedAt = store.getModifiedAt();
+        this.name = store.getName();
+        this.shareLink = store.getShareLink();
+        this.city = store.getCity();
+        this.district = store.getDistrict();
+        this.location = store.getLocation();
+        this.latitude = store.getLatitude();
+        this.longitude = store.getLongitude();
+        this.thumbnail = store.getThumbnail();
+        this.imageUrls = store.getImageUrls();
+        this.storeTypes = null;
+    }
+
     @Builder
     @QueryProjection
     public StoreResponse(

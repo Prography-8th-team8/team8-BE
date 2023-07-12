@@ -54,15 +54,13 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     }
 
     @Override
-    public List<StoreResponse> getList(
+    public List<Store> getList(
             List<District> district, List<StoreType> storeTypes, Pageable pageable,
             Double southwestLatitude, Double southwestLongitude,
             Double northeastLatitude, Double northeastLongitude
     ) {
         return queryFactory
                 .selectFrom(store)
-                .leftJoin(store.storeAndTags, storeAndTag)
-                .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(
                         storeDistrictIn(district),
                         storeTypeIn(storeTypes),
@@ -72,14 +70,7 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .transform(
-                        groupBy(store.id).list(
-                                Projections.constructor(StoreResponse.class,
-                                                        store,
-                                                        list(storeTag)
-                                )
-                        )
-                );
+                .fetch();
     }
 
     @Override
@@ -113,6 +104,16 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     @Override
     public StoreAndTag saveStoreAndTag(StoreAndTag storeAndTag) {
         return storeAndTagRepository.save(storeAndTag);
+    }
+
+    @Override
+    public List<StoreTag> getStoreTagByStoreId(Long storeId) {
+        return queryFactory
+                .select(storeTag)
+                .from(storeAndTag)
+                .leftJoin(storeAndTag.storeTag, storeTag)
+                .where(storeAndTag.store.id.eq(storeId))
+                .fetch();
     }
 
     @Override
