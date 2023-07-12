@@ -14,7 +14,6 @@ import prography.cakeke.server.common.BaseTest;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.out.persistence.StoreAndTagRepository;
 import prography.cakeke.server.store.adapter.out.persistence.StoreRepository;
 import prography.cakeke.server.store.adapter.out.persistence.StoreTagRepository;
@@ -74,17 +73,17 @@ class StoreServiceTest extends BaseTest {
 
         List<StoreType> testStoreTypeList = new ArrayList<>();
         testStoreTypeList.add(testStoreType);
-        List<StoreResponse> testStoreResponseList = storeService.getList(testDistrictList, testStoreTypeList,
-                                                                         1);
+        List<Store> testStoreList = storeService.getList(testDistrictList, testStoreTypeList, 1);
 
-        assertThat(testStoreResponseList.get(0).getCity()).isEqualTo(testCity);
-        assertThat(testStoreResponseList.get(0).getDistrict()).isEqualTo(testDistrict);
-        assertThat(testStoreResponseList.get(0).getLatitude()).isEqualTo(testLatitude);
-        assertThat(testStoreResponseList.get(0).getLocation()).isEqualTo(testLocation);
-        assertThat(testStoreResponseList.get(0).getLongitude()).isEqualTo(testLongitude);
-        assertThat(testStoreResponseList.get(0).getName()).isEqualTo(testName);
-        assertThat(testStoreResponseList.get(0).getShareLink()).isEqualTo(testShareLink);
-        assertThat(testStoreResponseList.get(0).getStoreTypes()).isEqualTo(testStoreTypeList);
+        assertThat(testStoreList).hasSize(1);
+
+        assertThat(testStoreList.get(0).getCity()).isEqualTo(testCity);
+        assertThat(testStoreList.get(0).getDistrict()).isEqualTo(testDistrict);
+        assertThat(testStoreList.get(0).getLatitude()).isEqualTo(testLatitude);
+        assertThat(testStoreList.get(0).getLocation()).isEqualTo(testLocation);
+        assertThat(testStoreList.get(0).getLongitude()).isEqualTo(testLongitude);
+        assertThat(testStoreList.get(0).getName()).isEqualTo(testName);
+        assertThat(testStoreList.get(0).getShareLink()).isEqualTo(testShareLink);
     }
 
     @Test
@@ -94,22 +93,32 @@ class StoreServiceTest extends BaseTest {
         testStoreTypeList.add(testStoreType);
         final Double TEST_ALPHA = 0.3; // 테스트 범위 임계값
 
-        List<StoreResponse> testStoreResponseList = storeService.reload(testStoreTypeList, 1,
-                                                                        testLatitude - TEST_ALPHA,
-                                                                        testLongitude - TEST_ALPHA,
-                                                                        testLatitude + TEST_ALPHA,
-                                                                        testLongitude + TEST_ALPHA);
+        List<Store> testStoreList = storeService.reload(testStoreTypeList, 1,
+                                                        testLatitude - TEST_ALPHA,
+                                                        testLongitude - TEST_ALPHA,
+                                                        testLatitude + TEST_ALPHA,
+                                                        testLongitude + TEST_ALPHA);
 
-        assertThat(testStoreResponseList).hasSize(1);
+        assertThat(testStoreList).hasSize(1);
 
-        assertThat(testStoreResponseList.get(0).getCity()).isEqualTo(testCity);
-        assertThat(testStoreResponseList.get(0).getDistrict()).isEqualTo(testDistrict);
-        assertThat(testStoreResponseList.get(0).getLatitude()).isEqualTo(testLatitude);
-        assertThat(testStoreResponseList.get(0).getLocation()).isEqualTo(testLocation);
-        assertThat(testStoreResponseList.get(0).getLongitude()).isEqualTo(testLongitude);
-        assertThat(testStoreResponseList.get(0).getName()).isEqualTo(testName);
-        assertThat(testStoreResponseList.get(0).getShareLink()).isEqualTo(testShareLink);
-        assertThat(testStoreResponseList.get(0).getStoreTypes().get(0)).isEqualTo(testStoreType);
+        assertThat(testStoreList.get(0).getCity()).isEqualTo(testCity);
+        assertThat(testStoreList.get(0).getDistrict()).isEqualTo(testDistrict);
+        assertThat(testStoreList.get(0).getLatitude()).isEqualTo(testLatitude);
+        assertThat(testStoreList.get(0).getLocation()).isEqualTo(testLocation);
+        assertThat(testStoreList.get(0).getLongitude()).isEqualTo(testLongitude);
+        assertThat(testStoreList.get(0).getName()).isEqualTo(testName);
+        assertThat(testStoreList.get(0).getShareLink()).isEqualTo(testShareLink);
+    }
+
+    @Test
+    @DisplayName("가게 케이크 타입들 조회(성공)")
+    public void getStoreTypeByStoreIdTestSuccess() {
+        Long testStoreId = storeRepository.findByName(testName).get().getId();
+        List<StoreTag> testStoreTag = storeService.getStoreTypeByStoreId(testStoreId);
+
+        assertThat(testStoreTag).hasSize(1);
+
+        assertThat(testStoreTag.get(0).getStoreType()).isEqualTo(testStoreType);
     }
 
     @Test

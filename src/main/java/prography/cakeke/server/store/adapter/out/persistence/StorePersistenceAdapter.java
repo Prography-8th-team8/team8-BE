@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
@@ -54,32 +55,30 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     }
 
     @Override
-    public List<StoreResponse> getList(
+    public List<Store> getList(
             List<District> district, List<StoreType> storeTypes, Pageable pageable,
             Double southwestLatitude, Double southwestLongitude,
             Double northeastLatitude, Double northeastLongitude
     ) {
         return queryFactory
                 .selectFrom(store)
-                .leftJoin(store.storeAndTags, storeAndTag)
-                .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(
                         storeDistrictIn(district),
-                        storeTypeIn(storeTypes),
                         storeLongitudeBetween(southwestLongitude, northeastLongitude),
-                        storeLatitudeBetween(southwestLatitude, northeastLatitude)
+                        storeLatitudeBetween(southwestLatitude, northeastLatitude),
+                        store.id.in(
+                                JPAExpressions
+                                        .select(storeAndTag.store.id)
+                                        .from(storeAndTag)
+                                        .leftJoin(storeAndTag.storeTag, storeTag)
+                                        .where(storeTypeIn(storeTypes))
+                        )
                 )
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .transform(
-                        groupBy(store.id).list(
-                                Projections.constructor(StoreResponse.class,
-                                                        store,
-                                                        list(storeTag)
-                                )
-                        )
-                );
+                .orderBy(store.id.asc())
+                .fetch();
     }
 
     @Override
@@ -113,6 +112,16 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     @Override
     public StoreAndTag saveStoreAndTag(StoreAndTag storeAndTag) {
         return storeAndTagRepository.save(storeAndTag);
+    }
+
+    @Override
+    public List<StoreTag> getStoreTagByStoreId(Long storeId) {
+        return queryFactory
+                .select(storeTag)
+                .from(storeAndTag)
+                .leftJoin(storeAndTag.storeTag, storeTag)
+                .where(storeAndTag.store.id.eq(storeId))
+                .fetch();
     }
 
     @Override

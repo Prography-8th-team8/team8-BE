@@ -18,6 +18,7 @@ import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreTag;
 import prography.cakeke.server.store.domain.StoreType;
 import prography.cakeke.server.store.exceptions.NotAllowedLocationException;
 import prography.cakeke.server.store.exceptions.NotFoundStoreException;
@@ -51,7 +52,7 @@ public class StoreService implements StoreUseCase {
      * @return 가게 리스트
      */
     @Override
-    public List<StoreResponse> getList(List<District> district, List<StoreType> storeTypes, int page) {
+    public List<Store> getList(List<District> district, List<StoreType> storeTypes, int page) {
         // southwestLatitude, southwestLongitude, northeastLatitude, northeastLongitude는 null
         return loadStorePort.getList(district, storeTypes, PageRequest.of(page - 1, PAGE_SIZE),
                                      null, null, null, null);
@@ -67,7 +68,7 @@ public class StoreService implements StoreUseCase {
      * @return 가게 리스트
      */
     @Override
-    public List<StoreResponse> reload(
+    public List<Store> reload(
             List<StoreType> storeTypes, int page,
             Double southwestLatitude, Double southwestLongitude,
             Double northeastLatitude, Double northeastLongitude
@@ -86,6 +87,16 @@ public class StoreService implements StoreUseCase {
                 southwestLatitude, southwestLongitude,
                 northeastLatitude, northeastLongitude
         );
+    }
+
+    /**
+     * 가게 아이디를 받아 가게 상세정보를 반환합니다.
+     * @param storeId 가게 아이디
+     * @return 가게 케이크 타입들
+     */
+    @Override
+    public List<StoreTag> getStoreTypeByStoreId(Long storeId) {
+        return loadStorePort.getStoreTagByStoreId(storeId);
     }
 
     /**

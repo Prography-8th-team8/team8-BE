@@ -1,6 +1,7 @@
 package prography.cakeke.server.store.adapter.in.web;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,8 +16,10 @@ import prography.cakeke.server.store.adapter.in.web.response.DistrictCountRespon
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreTagResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.Store;
 import prography.cakeke.server.store.domain.StoreType;
 
 @RestController
@@ -38,7 +41,11 @@ public class StoreController {
             @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page
     ) {
-        return ResponseEntity.ok().body(this.storeUseCase.getList(district, storeTypes, page));
+        return ResponseEntity.ok().body(
+                this.storeUseCase.getList(district, storeTypes, page)
+                                 .stream().map(Store::toResponse)
+                                 .collect(Collectors.toList())
+        );
     }
 
     @Operation(description = "이 지역 재검색")
@@ -53,10 +60,19 @@ public class StoreController {
     ) {
         return ResponseEntity.ok().body(
                 this.storeUseCase.reload(
-                        storeTypes, page,
-                        southwestLatitude, southwestLongitude,
-                        northeastLatitude, northeastLongitude
-                )
+                            storeTypes, page,
+                            southwestLatitude, southwestLongitude,
+                            northeastLatitude, northeastLongitude)
+                                 .stream().map(Store::toResponse)
+                                 .collect(Collectors.toList())
+        );
+    }
+
+    @Operation(description = "케이크샵 케이크 타입 정보 조회")
+    @GetMapping("/{id}/type")
+    public ResponseEntity<StoreTagResponse> getStoreType(@PathVariable(value = "id") Long storeId) {
+        return ResponseEntity.ok().body(
+                new StoreTagResponse(storeId, this.storeUseCase.getStoreTypeByStoreId(storeId))
         );
     }
 
