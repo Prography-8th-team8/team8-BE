@@ -43,7 +43,7 @@ public class StoreController {
     ) {
         return ResponseEntity.ok().body(
                 this.storeUseCase.getList(district, storeTypes, page)
-                                 .stream().map(Store::toResponse)
+                                 .stream().map(it -> new StoreResponse(it, null))
                                  .collect(Collectors.toList())
         );
     }
@@ -63,7 +63,7 @@ public class StoreController {
                             storeTypes, page,
                             southwestLatitude, southwestLongitude,
                             northeastLatitude, northeastLongitude)
-                                 .stream().map(Store::toResponse)
+                                 .stream().map(it -> new StoreResponse(it, null))
                                  .collect(Collectors.toList())
         );
     }

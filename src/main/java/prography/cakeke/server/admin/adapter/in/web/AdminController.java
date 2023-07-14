@@ -32,7 +32,9 @@ public class AdminController {
             @PathVariable(value = "storeName") String storeName,
             @RequestPart("image") List<MultipartFile> files
     ) {
-        return ResponseEntity.ok().body(this.adminUseCase.uploadImage(storeName, files).toResponse());
+        return ResponseEntity.ok().body(
+                new StoreResponse(this.adminUseCase.uploadImage(storeName, files), null)
+        );
     }
 
     @PostMapping(value = "/update/category/{storeName}")
@@ -41,6 +43,8 @@ public class AdminController {
             @PathVariable(value = "storeName") String storeName,
             @RequestBody List<StoreType> storeTypes
     ) {
-        return ResponseEntity.ok().body(this.adminUseCase.updateCategory(storeName, storeTypes).toResponse());
+        return ResponseEntity.ok().body(
+                new StoreResponse(this.adminUseCase.updateCategory(storeName, storeTypes), null)
+        );
     }
 }
