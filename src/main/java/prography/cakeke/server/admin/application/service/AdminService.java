@@ -17,6 +17,7 @@ import prography.cakeke.server.store.application.port.out.SaveStorePort;
 import prography.cakeke.server.store.domain.Store;
 import prography.cakeke.server.store.domain.StoreAndTag;
 import prography.cakeke.server.store.domain.StoreType;
+import prography.cakeke.server.store.exceptions.NotFoundStoreTagException;
 
 @Service
 @RequiredArgsConstructor
@@ -42,9 +43,7 @@ public class AdminService implements AdminUseCase {
         Store store = storeUseCase.getByName(storeName);
         List<String> imageLinks = imageUseCase.uploadImages(files);
 
-        // 대표이미지 먼저 바꾼다. (업로드 할 때, 0번째 업로드 되는 사진은 대표사진이라는 제약이 있다.)
         store.uploadThumbnail(imageLinks.get(REPRESENTATIVE_INDEX));
-        // imageLinks의 첫 번째인 대표이미지를 제외한 나머지 사진들은 모두 이미지 필드에 추가한다.
         imageLinks.remove(REPRESENTATIVE_INDEX);
         store.uploadImageUrls(imageLinks);
 
@@ -62,21 +61,19 @@ public class AdminService implements AdminUseCase {
     public Store updateCategory(String storeName, List<StoreType> storeTypes) {
         Store store = storeUseCase.getByName(storeName);
 
-        // 기존에 존재하던 store의 storeAndTag를 삭제시킨다.
         deleteStorePort.deleteStoreAndTagByStoreId(store.getId());
 
         List<StoreAndTag> category = storeTypes.stream()
-                                               // StoreTypes 각 요소를 StoreTag로 변환한다.
                                                .map(loadStorePort::getStoreTagByStoreTag)
                                                // 위에서 구한 StoreTag를 StoreAndTag의 StoreTag에 넣고 저장해 StoreAndTag를 만든다.
                                                .map(it -> saveStorePort.saveStoreAndTag(
                                                        StoreAndTag.builder()
-                                                                  .storeTag(it)
+                                                                  .storeTag(it.orElseThrow(
+                                                                          NotFoundStoreTagException::new))
                                                                   .store(store)
                                                                   .build()))
                                                .collect(Collectors.toList());
 
-        // 구해진 category를 가게의 storeAndTags에 넣어 업데이트 시킨다.
         store.updateCategory(category);
         return store;
     }
