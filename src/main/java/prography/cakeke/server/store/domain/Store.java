@@ -17,7 +17,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import prography.cakeke.server.common.domain.Core;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 
 @Entity
 @Getter
@@ -96,9 +95,4 @@ public class Store extends Core {
         return this;
     }
 
-    public StoreResponse toResponse() {
-        return StoreResponse.builder()
-                            .store(this)
-                            .build();
-    }
 }
