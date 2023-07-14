@@ -105,7 +105,7 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     }
 
     @Override
-    public StoreTag getStoreTagByStoreTag(StoreType storeType) {
+    public Optional<StoreTag> getStoreTagByStoreTag(StoreType storeType) {
         return storeTagRepository.findByStoreType(storeType);
     }
 
