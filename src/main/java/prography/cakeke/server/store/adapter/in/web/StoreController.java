@@ -13,12 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.FeedImageResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreTagResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.Store;
 import prography.cakeke.server.store.domain.StoreType;
 
 @RestController
@@ -73,6 +75,33 @@ public class StoreController {
         return ResponseEntity.ok().body(
                 new StoreTagResponse(storeId, this.storeUseCase.getStoreTypeByStoreId(storeId))
         );
+    }
+
+    @Operation(description = "feed로 케이크 이미지 조회")
+    @GetMapping("/feed")
+    public ResponseEntity<List<FeedImageResponse>> getFeedImage(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
+            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
+            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
+            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+    ) {
+        List<Store> stores = this.storeUseCase.reload(
+                null, page,
+                southwestLatitude, southwestLongitude,
+                northeastLatitude, northeastLongitude
+        );
+
+        List<FeedImageResponse> response = stores
+                .stream().flatMap(
+                        store -> store.getImageUrls()
+                                      .stream().map(
+                                        imageUrl -> new FeedImageResponse(store.getId(), imageUrl)
+                                )
+                )
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok().body(response);
     }
 
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
