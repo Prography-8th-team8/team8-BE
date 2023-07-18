@@ -26,7 +26,7 @@ public interface LoadStorePort {
 
     Optional<Store> getByName(String name);
 
-    StoreTag getStoreTagByStoreTag(StoreType storeType);
+    Optional<StoreTag> getStoreTagByStoreTag(StoreType storeType);
 
     List<StoreTag> getStoreTagByStoreId(Long storeId);
 }

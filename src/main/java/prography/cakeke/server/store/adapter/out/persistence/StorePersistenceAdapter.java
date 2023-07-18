@@ -66,13 +66,7 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
                         storeDistrictIn(district),
                         storeLongitudeBetween(southwestLongitude, northeastLongitude),
                         storeLatitudeBetween(southwestLatitude, northeastLatitude),
-                        store.id.in(
-                                JPAExpressions
-                                        .select(storeAndTag.store.id)
-                                        .from(storeAndTag)
-                                        .leftJoin(storeAndTag.storeTag, storeTag)
-                                        .where(storeTypeIn(storeTypes))
-                        )
+                        storeTypeFiltering(storeTypes)
                 )
                 .distinct()
                 .offset(pageable.getOffset())
@@ -105,7 +99,7 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     }
 
     @Override
-    public StoreTag getStoreTagByStoreTag(StoreType storeType) {
+    public Optional<StoreTag> getStoreTagByStoreTag(StoreType storeType) {
         return storeTagRepository.findByStoreType(storeType);
     }
 
@@ -145,5 +139,15 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     private BooleanExpression storeLatitudeBetween(Double southwestLatitude, Double northeastLatitude) {
         return southwestLatitude != null || northeastLatitude != null ?
                store.latitude.between(southwestLatitude, northeastLatitude) : null;
+    }
+
+    private BooleanExpression storeTypeFiltering(List<StoreType> storeTypes) {
+        return storeTypes != null ? store.id.in(
+                JPAExpressions
+                        .select(storeAndTag.store.id)
+                        .from(storeAndTag)
+                        .leftJoin(storeAndTag.storeTag, storeTag)
+                        .where(storeTypeIn(storeTypes))
+        ) : null;
     }
 }
