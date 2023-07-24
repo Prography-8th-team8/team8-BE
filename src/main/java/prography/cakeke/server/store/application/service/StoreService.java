@@ -8,7 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
@@ -106,24 +105,14 @@ public class StoreService implements StoreUseCase {
     @Override
     public StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(StoreResponse storeResponse) {
         final String storeName = storeResponse.getName();
-        // 네이버 지역 검색 api 결과값 리턴
         return loadNaverSearchApiPort.getNaverLocalSearchResponse(storeName);
     }
 
-    /**
-     * 해당 가게의 네이버 블로그 정보를 반환합니다.
-     * @param storeId 가게 아이디
-     * @param blogNum 가져올 블로그 개수 (기본 값 3)
-     * @return 블로그 리스트
-     */
     @Override
-    public StoreBlogResponse getStoreBlog(Long storeId, Integer blogNum) {
+    public List<StoreNaverBlogSearchApiResponse> getNaverBlogApiByStore(Long storeId, Integer blogNum) {
         StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId).get(storeId);
         final String storeName = storeResponse.getName();
-        // 네이버 블로그 검색 api 결과값 리턴
-        List<StoreNaverBlogSearchApiResponse> storeNaverBlogSearchApiResponseList =
-                loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
-        return new StoreBlogResponse(storeNaverBlogSearchApiResponseList);
+        return loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
     }
 
     /**

@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import prography.cakeke.server.common.BaseTest;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.out.persistence.StoreAndTagRepository;
@@ -149,12 +149,13 @@ class StoreServiceTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("가게 네이버 블로그 테스트(성공)")
-    public void getStoreBlogTestSuccess() {
+    @DisplayName("가게 네이버 블로그 조회 테스트(성공)")
+    public void getNaverBlogApiTestSuccess() {
         Long testStoreId = storeRepository.findByName(testNaverStoreName).get().getId();
-        StoreBlogResponse testStoreBlogResponse = storeService.getStoreBlog(testStoreId, 2);
+        List<StoreNaverBlogSearchApiResponse> testStoreNaverBlogSearchApiResponseList =
+                storeService.getNaverBlogApiByStore(testStoreId, 2);
 
-        assertThat(testStoreBlogResponse.getBlogPosts()).hasSize(2);
+        assertThat(testStoreNaverBlogSearchApiResponseList).hasSize(2);
     }
 
     @Test

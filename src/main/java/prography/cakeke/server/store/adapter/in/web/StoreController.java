@@ -118,6 +118,7 @@ public class StoreController {
     public ResponseEntity<StoreBlogResponse> getStoreBlog(
             @PathVariable(value = "id") Long storeId,
             @RequestParam(value = "num", required = false, defaultValue = "3") Integer blogNum) {
-        return ResponseEntity.ok().body(this.storeUseCase.getStoreBlog(storeId, blogNum));
+        return ResponseEntity.ok().body(
+                new StoreBlogResponse(this.storeUseCase.getNaverBlogApiByStore(storeId, blogNum)));
     }
 }

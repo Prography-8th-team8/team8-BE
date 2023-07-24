@@ -3,7 +3,7 @@ package prography.cakeke.server.store.application.port.in;
 import java.util.List;
 
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
@@ -28,7 +28,7 @@ public interface StoreUseCase {
 
     StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(StoreResponse storeResponse);
 
-    StoreBlogResponse getStoreBlog(Long storeId, Integer blogNum);
+    List<StoreNaverBlogSearchApiResponse> getNaverBlogApiByStore(Long storeId, Integer blogNum);
 
     Store getByName(String name);
 }
