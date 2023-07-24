@@ -4,7 +4,8 @@ import java.util.List;
 
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
 import prography.cakeke.server.store.domain.StoreTag;
@@ -23,7 +24,9 @@ public interface StoreUseCase {
 
     List<StoreTag> getStoreTypeByStoreId(Long storeId);
 
-    StoreDetailResponse getStoreDetail(Long storeId);
+    StoreResponse getStore(Long storeId);
+
+    StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(StoreResponse storeResponse);
 
     StoreBlogResponse getStoreBlog(Long storeId, Integer blogNum);
 
