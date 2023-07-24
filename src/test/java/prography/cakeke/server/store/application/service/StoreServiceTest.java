@@ -10,7 +10,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import prography.cakeke.server.common.BaseTest;
+import prography.cakeke.server.common.BaseMock;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
@@ -24,7 +24,7 @@ import prography.cakeke.server.store.domain.StoreAndTag;
 import prography.cakeke.server.store.domain.StoreTag;
 import prography.cakeke.server.store.domain.StoreType;
 
-class StoreServiceTest extends BaseTest {
+class StoreServiceTest extends BaseMock {
     @Autowired
     protected StoreService storeService;
     @Autowired
