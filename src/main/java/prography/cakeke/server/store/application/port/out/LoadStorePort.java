@@ -22,7 +22,7 @@ public interface LoadStorePort {
             Double southwestLatitude, Double northeastLatitude
     );
 
-    Map<Long, StoreResponse> getStoreDetail(Long storeId);
+    Map<Long, StoreResponse> getStore(Long storeId);
 
     Optional<Store> getByName(String name);
 

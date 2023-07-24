@@ -99,7 +99,7 @@ public class StoreService implements StoreUseCase {
 
     @Override
     public StoreResponse getStore(Long storeId) {
-        return loadStorePort.getStoreDetail(storeId).get(storeId);
+        return loadStorePort.getStore(storeId).get(storeId);
     }
 
     @Override
@@ -110,7 +110,7 @@ public class StoreService implements StoreUseCase {
 
     @Override
     public List<StoreNaverBlogSearchApiResponse> getNaverBlogApiByStore(Long storeId, Integer blogNum) {
-        StoreResponse storeResponse = loadStorePort.getStoreDetail(storeId).get(storeId);
+        StoreResponse storeResponse = loadStorePort.getStore(storeId).get(storeId);
         final String storeName = storeResponse.getName();
         return loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
     }
