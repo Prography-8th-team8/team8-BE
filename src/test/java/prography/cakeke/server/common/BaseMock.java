@@ -14,7 +14,7 @@ import prography.cakeke.server.store.domain.StoreType;
 @SpringBootTest
 @Transactional
 @Rollback
-public class BaseTest {
+public class BaseMock {
     protected final City testCity = City.SEOUL;
     protected final District testDistrict = District.GANGNAM;
     protected final Double testLatitude = 37.5085138;

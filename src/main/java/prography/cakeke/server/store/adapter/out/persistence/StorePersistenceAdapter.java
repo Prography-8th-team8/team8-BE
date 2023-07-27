@@ -76,7 +76,7 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     }
 
     @Override
-    public Map<Long, StoreResponse> getStoreDetail(Long storeId) {
+    public Map<Long, StoreResponse> getStore(Long storeId) {
         return queryFactory
                 .select(store)
                 .from(store)
