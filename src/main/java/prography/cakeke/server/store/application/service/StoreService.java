@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
@@ -39,7 +39,7 @@ public class StoreService implements StoreUseCase {
      * @return 각 구별 가게의 개수
      */
     @Override
-    public List<DistrictCountResponse> getCount() {
+    public List<DistrictCountDTO> getCount() {
         return loadStorePort.getDistrictCount();
     }
 

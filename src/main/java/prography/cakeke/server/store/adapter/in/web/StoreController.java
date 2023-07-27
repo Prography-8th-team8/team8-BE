@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.FeedImageResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
@@ -31,7 +31,7 @@ public class StoreController {
 
     @Operation(description = "각 구별 가게 갯수 조회")
     @GetMapping("/district/count")
-    public ResponseEntity<List<DistrictCountResponse>> getCount() {
+    public ResponseEntity<List<DistrictCountDTO>> getCount() {
         return ResponseEntity.ok().body(this.storeUseCase.getCount());
     }
 
