@@ -2,12 +2,16 @@ package prography.cakeke.server.store.adapter.in.web.response;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import prography.cakeke.server.store.domain.City;
 import prography.cakeke.server.store.domain.District;
+import prography.cakeke.server.store.domain.Store;
+import prography.cakeke.server.store.domain.StoreAndTag;
+import prography.cakeke.server.store.domain.StoreTag;
 import prography.cakeke.server.store.domain.StoreType;
 
 @Getter
@@ -49,21 +53,25 @@ public class StoreDetailResponse {
 
     @Builder
     public StoreDetailResponse(
-            StoreResponse storeResponse, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse
+            Store store, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse
     ) {
-        this.id = storeResponse.getId();
-        this.createdAt = storeResponse.getCreatedAt();
-        this.modifiedAt = storeResponse.getModifiedAt();
-        this.name = storeResponse.getName();
-        this.shareLink = storeResponse.getShareLink();
-        this.city = storeResponse.getCity();
-        this.district = storeResponse.getDistrict();
-        this.location = storeResponse.getLocation();
-        this.latitude = storeResponse.getLatitude();
-        this.longitude = storeResponse.getLongitude();
-        this.storeTypes = storeResponse.getStoreTypes();
-        this.thumbnail = storeResponse.getThumbnail();
-        this.imageUrls = storeResponse.getImageUrls();
+        List<StoreTag> storeTagList = store.getStoreAndTags().stream().map(StoreAndTag::getStoreTag).toList();
+
+        this.id = store.getId();
+        this.createdAt = store.getCreatedAt();
+        this.modifiedAt = store.getModifiedAt();
+        this.name = store.getName();
+        this.shareLink = store.getShareLink();
+        this.city = store.getCity();
+        this.district = store.getDistrict();
+        this.location = store.getLocation();
+        this.latitude = store.getLatitude();
+        this.longitude = store.getLongitude();
+        this.storeTypes = storeTagList != null ?
+                          storeTagList.stream().map(StoreTag::getStoreType).collect(Collectors.toList())
+                                               : List.of();
+        this.thumbnail = store.getThumbnail();
+        this.imageUrls = store.getImageUrls();
         this.link = storeNaverLocalSearchApiResponse.getLink();
         this.description = storeNaverLocalSearchApiResponse.getDescription();
         this.phoneNumber = storeNaverLocalSearchApiResponse.getPhoneNumber();

@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
@@ -103,8 +102,8 @@ public class StoreService implements StoreUseCase {
      * @return 가게 정보
      */
     @Override
-    public StoreResponse getStore(Long storeId) {
-        return loadStorePort.getStore(storeId).get(storeId);
+    public Store getStore(Long storeId) {
+        return loadStorePort.getStore(storeId);
     }
 
     /**
@@ -113,8 +112,8 @@ public class StoreService implements StoreUseCase {
      * @return 네이버 지역 검색 결과
      */
     @Override
-    public StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(StoreResponse storeResponse) {
-        final String storeName = storeResponse.getName();
+    public StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(Store store) {
+        final String storeName = store.getName();
         return loadNaverSearchApiPort.getNaverLocalSearchResponse(storeName);
     }
 
@@ -125,8 +124,8 @@ public class StoreService implements StoreUseCase {
      */
     @Override
     public List<StoreNaverBlogSearchApiResponse> getNaverBlogApiByStore(Long storeId, Integer blogNum) {
-        StoreResponse storeResponse = loadStorePort.getStore(storeId).get(storeId);
-        final String storeName = storeResponse.getName();
+        Store store = loadStorePort.getStore(storeId);
+        final String storeName = store.getName();
         return loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
     }
 

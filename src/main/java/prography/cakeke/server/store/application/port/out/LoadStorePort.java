@@ -1,13 +1,11 @@
 package prography.cakeke.server.store.application.port.out;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
 
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
 import prography.cakeke.server.store.domain.StoreTag;
@@ -22,7 +20,7 @@ public interface LoadStorePort {
             Double southwestLatitude, Double northeastLatitude
     );
 
-    Map<Long, StoreResponse> getStore(Long storeId);
+    Store getStore(Long storeId);
 
     Optional<Store> getByName(String name);
 

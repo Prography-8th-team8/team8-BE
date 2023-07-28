@@ -107,10 +107,10 @@ public class StoreController {
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
     @GetMapping("/{id}")
     public ResponseEntity<StoreDetailResponse> getStoreDetail(@PathVariable("id") Long storeId) {
-        StoreResponse storeResponse = this.storeUseCase.getStore(storeId);
+        Store store = this.storeUseCase.getStore(storeId);
         return ResponseEntity.ok().body(
-                new StoreDetailResponse(storeResponse,
-                                        this.storeUseCase.getNaverLocalApiByStore(storeResponse)));
+                new StoreDetailResponse(store,
+                                        this.storeUseCase.getNaverLocalApiByStore(store)));
     }
 
     @Operation(description = "케이크샵 블로그 정보 조회")
