@@ -54,10 +54,10 @@ public class StoreController {
     public ResponseEntity<List<StoreResponse>> reload(
             @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
-            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
-            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
-            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+            @RequestParam(value = "southwestLatitude") Double southwestLatitude,
+            @RequestParam(value = "southwestLongitude") Double southwestLongitude,
+            @RequestParam(value = "northeastLatitude") Double northeastLatitude,
+            @RequestParam(value = "northeastLongitude") Double northeastLongitude
     ) {
         return ResponseEntity.ok().body(
                 this.storeUseCase.reload(
@@ -81,10 +81,10 @@ public class StoreController {
     @GetMapping("/feed")
     public ResponseEntity<List<FeedImageResponse>> getFeedImage(
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
-            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
-            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
-            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+            @RequestParam(value = "southwestLatitude") Double southwestLatitude,
+            @RequestParam(value = "southwestLongitude") Double southwestLongitude,
+            @RequestParam(value = "northeastLatitude") Double northeastLatitude,
+            @RequestParam(value = "northeastLongitude") Double northeastLongitude
     ) {
         List<Store> stores = this.storeUseCase.reload(
                 null, page,
