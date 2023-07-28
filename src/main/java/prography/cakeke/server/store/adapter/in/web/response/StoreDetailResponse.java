@@ -56,7 +56,9 @@ public class StoreDetailResponse {
             Store store, StoreNaverLocalSearchApiResponse storeNaverLocalSearchApiResponse
     ) {
         List<StoreTag> storeTagList = store.getStoreAndTags().stream().map(StoreAndTag::getStoreTag).toList();
-
+        this.storeTypes = storeTagList != null ?
+                          storeTagList.stream().map(StoreTag::getStoreType).collect(Collectors.toList())
+                                               : List.of();
         this.id = store.getId();
         this.createdAt = store.getCreatedAt();
         this.modifiedAt = store.getModifiedAt();
@@ -67,9 +69,6 @@ public class StoreDetailResponse {
         this.location = store.getLocation();
         this.latitude = store.getLatitude();
         this.longitude = store.getLongitude();
-        this.storeTypes = storeTagList != null ?
-                          storeTagList.stream().map(StoreTag::getStoreType).collect(Collectors.toList())
-                                               : List.of();
         this.thumbnail = store.getThumbnail();
         this.imageUrls = store.getImageUrls();
         this.link = storeNaverLocalSearchApiResponse.getLink();
