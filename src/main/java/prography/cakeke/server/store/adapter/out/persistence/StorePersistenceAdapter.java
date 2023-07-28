@@ -70,7 +70,6 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(store.id.asc())
                 .fetch();
     }
 
