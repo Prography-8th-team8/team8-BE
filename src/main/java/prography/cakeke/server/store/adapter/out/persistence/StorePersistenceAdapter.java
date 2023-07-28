@@ -1,7 +1,6 @@
 package prography.cakeke.server.store.adapter.out.persistence;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
-import static com.querydsl.core.group.GroupBy.list;
 
 import java.util.List;
 import java.util.Map;
@@ -16,7 +15,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.out.DeleteStorePort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
@@ -43,9 +42,9 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     private final QStoreTag storeTag = QStoreTag.storeTag;
 
     @Override
-    public List<DistrictCountResponse> getDistrictCount() {
+    public List<DistrictCountDTO> getDistrictCount() {
         return queryFactory
-                .select(Projections.fields(DistrictCountResponse.class,
+                .select(Projections.fields(DistrictCountDTO.class,
                                            store.district,
                                            store.id.count().as("count")
                 ))

@@ -6,7 +6,7 @@ import lombok.Getter;
 @Getter
 public class StoreNaverLocalSearchApiResponse {
     String link; // 가게 URL
-
+    
     String description; // 가게 설명
 
     String phoneNumber; // 가게 번호
