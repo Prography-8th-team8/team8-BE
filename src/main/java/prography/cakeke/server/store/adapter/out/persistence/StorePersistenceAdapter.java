@@ -1,6 +1,7 @@
 package prography.cakeke.server.store.adapter.out.persistence;
 
 import static com.querydsl.core.group.GroupBy.groupBy;
+import static com.querydsl.core.group.GroupBy.list;
 
 import java.util.List;
 import java.util.Map;
