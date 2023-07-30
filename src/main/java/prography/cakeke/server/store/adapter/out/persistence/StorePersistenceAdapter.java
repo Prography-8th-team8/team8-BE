@@ -4,7 +4,6 @@ import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -17,7 +16,6 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.out.DeleteStorePort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.application.port.out.SaveStorePort;
@@ -75,21 +73,13 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     }
 
     @Override
-    public Map<Long, StoreResponse> getStore(Long storeId) {
+    public Store getStore(Long storeId) {
         return queryFactory
-                .select(store)
-                .from(store)
+                .selectFrom(store)
                 .leftJoin(store.storeAndTags, storeAndTag)
                 .leftJoin(storeAndTag.storeTag, storeTag)
                 .where(store.id.eq(storeId))
-                .transform(
-                        groupBy(store.id).as(
-                                Projections.constructor(StoreResponse.class,
-                                                        store,
-                                                        list(storeTag)
-                                )
-                        )
-                );
+                .fetchOne();
     }
 
     @Override

@@ -55,10 +55,10 @@ public class StoreController {
     public ResponseEntity<List<StoreResponse>> reload(
             @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
-            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
-            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
-            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+            @RequestParam(value = "southwestLatitude") Double southwestLatitude,
+            @RequestParam(value = "southwestLongitude") Double southwestLongitude,
+            @RequestParam(value = "northeastLatitude") Double northeastLatitude,
+            @RequestParam(value = "northeastLongitude") Double northeastLongitude
     ) {
         return ResponseEntity.ok().body(
                 this.storeUseCase.reload(
@@ -94,7 +94,7 @@ public class StoreController {
                                 )
                 )
                 .collect(Collectors.toList());
-        
+
         Collections.shuffle(response);
         return ResponseEntity.ok().body(response);
     }
@@ -102,10 +102,10 @@ public class StoreController {
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
     @GetMapping("/{id}")
     public ResponseEntity<StoreDetailResponse> getStoreDetail(@PathVariable("id") Long storeId) {
-        StoreResponse storeResponse = this.storeUseCase.getStore(storeId);
+        Store store = this.storeUseCase.getStore(storeId);
         return ResponseEntity.ok().body(
-                new StoreDetailResponse(storeResponse,
-                                        this.storeUseCase.getNaverLocalApiByStore(storeResponse)));
+                new StoreDetailResponse(store,
+                                        this.storeUseCase.getNaverLocalApiByStore(store)));
     }
 
     @Operation(description = "케이크샵 블로그 정보 조회")
