@@ -73,8 +73,8 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     public Store getStore(Long storeId) {
         return queryFactory
                 .selectFrom(store)
-                .leftJoin(store.storeAndTags, storeAndTag)
-                .leftJoin(storeAndTag.storeTag, storeTag)
+                .leftJoin(store.storeAndTags, storeAndTag).fetchJoin()
+                .leftJoin(storeAndTag.storeTag, storeTag).fetchJoin()
                 .where(store.id.eq(storeId))
                 .fetchOne();
     }
