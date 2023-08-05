@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.FeedImageResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreBookmarkResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreTagResponse;
@@ -115,5 +116,11 @@ public class StoreController {
             @RequestParam(value = "num", required = false, defaultValue = "3") Integer blogNum) {
         return ResponseEntity.ok().body(
                 new StoreBlogResponse(this.storeUseCase.getNaverBlogApiByStore(storeId, blogNum)));
+    }
+
+    @Operation(description = "북마크 가게 조회")
+    @GetMapping("/{id}/bookmark")
+    public ResponseEntity<StoreBookmarkResponse> getStoreBookmark(@PathVariable(value = "id") Long storeId) {
+        return ResponseEntity.ok().body(new StoreBookmarkResponse(this.storeUseCase.getStore(storeId)));
     }
 }
