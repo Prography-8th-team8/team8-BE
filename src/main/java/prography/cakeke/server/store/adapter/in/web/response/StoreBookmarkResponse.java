@@ -26,6 +26,6 @@ public class StoreBookmarkResponse {
         this.name = store.getName();
         this.district = store.getDistrict();
         this.location = store.getLocation();
-        this.imageUrls = store.getImageUrls()!=null? store.getImageUrls() : List.of();
+        this.imageUrls = store.getImageUrls() != null ? store.getImageUrls() : List.of();
     }
 }
