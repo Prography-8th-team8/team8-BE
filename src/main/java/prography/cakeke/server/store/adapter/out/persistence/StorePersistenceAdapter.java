@@ -4,7 +4,6 @@ import static com.querydsl.core.group.GroupBy.groupBy;
 import static com.querydsl.core.group.GroupBy.list;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.data.domain.Pageable;
@@ -16,8 +15,7 @@ import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.application.port.out.DeleteStorePort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
 import prography.cakeke.server.store.application.port.out.SaveStorePort;
@@ -43,9 +41,9 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
     private final QStoreTag storeTag = QStoreTag.storeTag;
 
     @Override
-    public List<DistrictCountResponse> getDistrictCount() {
+    public List<DistrictCountDTO> getDistrictCount() {
         return queryFactory
-                .select(Projections.fields(DistrictCountResponse.class,
+                .select(Projections.fields(DistrictCountDTO.class,
                                            store.district,
                                            store.id.count().as("count")
                 ))
@@ -71,26 +69,17 @@ public class StorePersistenceAdapter implements LoadStorePort, SaveStorePort, De
                 .distinct()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(store.id.asc())
                 .fetch();
     }
 
     @Override
-    public Map<Long, StoreResponse> getStore(Long storeId) {
+    public Store getStore(Long storeId) {
         return queryFactory
-                .select(store)
-                .from(store)
-                .leftJoin(store.storeAndTags, storeAndTag)
-                .leftJoin(storeAndTag.storeTag, storeTag)
+                .selectFrom(store)
+                .leftJoin(store.storeAndTags, storeAndTag).fetchJoin()
+                .leftJoin(storeAndTag.storeTag, storeTag).fetchJoin()
                 .where(store.id.eq(storeId))
-                .transform(
-                        groupBy(store.id).as(
-                                Projections.constructor(StoreResponse.class,
-                                                        store,
-                                                        list(storeTag)
-                                )
-                        )
-                );
+                .fetchOne();
     }
 
     @Override

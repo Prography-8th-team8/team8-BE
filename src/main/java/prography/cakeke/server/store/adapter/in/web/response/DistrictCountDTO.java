@@ -6,7 +6,7 @@ import prography.cakeke.server.store.domain.District;
 
 @Getter
 @NoArgsConstructor
-public class DistrictCountResponse {
+public class DistrictCountDTO {
 
     District district;
 

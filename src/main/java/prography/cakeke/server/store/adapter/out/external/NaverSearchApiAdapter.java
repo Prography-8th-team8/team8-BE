@@ -108,7 +108,7 @@ public class NaverSearchApiAdapter implements LoadNaverSearchApiPort {
          * sim: 정확도순으로 내림차순 정렬(기본값)
          * date: 날짜순으로 내림차순 정렬
          * */
-        final String sortType = "sim";
+        final String sortType = "date";
         JSONArray responseJson = getNaverSearchApiResponse(storeName, blogNum, sortType, blogPath);
 
         List<StoreNaverBlogSearchApiResponse> storeNaverBlogSearchApiResponseList = new ArrayList<>();

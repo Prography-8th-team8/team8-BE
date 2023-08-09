@@ -1,5 +1,6 @@
 package prography.cakeke.server.store.adapter.in.web;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -12,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.FeedImageResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreBlogResponse;
+import prography.cakeke.server.store.adapter.in.web.response.StoreBookmarkResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreDetailResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreTagResponse;
@@ -31,7 +33,7 @@ public class StoreController {
 
     @Operation(description = "각 구별 가게 갯수 조회")
     @GetMapping("/district/count")
-    public ResponseEntity<List<DistrictCountResponse>> getCount() {
+    public ResponseEntity<List<DistrictCountDTO>> getCount() {
         return ResponseEntity.ok().body(this.storeUseCase.getCount());
     }
 
@@ -54,10 +56,10 @@ public class StoreController {
     public ResponseEntity<List<StoreResponse>> reload(
             @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
             @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
-            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
-            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
-            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+            @RequestParam(value = "southwestLatitude") Double southwestLatitude,
+            @RequestParam(value = "southwestLongitude") Double southwestLongitude,
+            @RequestParam(value = "northeastLatitude") Double northeastLatitude,
+            @RequestParam(value = "northeastLongitude") Double northeastLongitude
     ) {
         return ResponseEntity.ok().body(
                 this.storeUseCase.reload(
@@ -80,38 +82,31 @@ public class StoreController {
     @Operation(description = "feed로 케이크 이미지 조회")
     @GetMapping("/feed")
     public ResponseEntity<List<FeedImageResponse>> getFeedImage(
-            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
-            @RequestParam(value = "southwestLatitude", required = true) Double southwestLatitude,
-            @RequestParam(value = "southwestLongitude", required = true) Double southwestLongitude,
-            @RequestParam(value = "northeastLatitude", required = true) Double northeastLatitude,
-            @RequestParam(value = "northeastLongitude", required = true) Double northeastLongitude
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page
     ) {
-        List<Store> stores = this.storeUseCase.reload(
-                null, page,
-                southwestLatitude, southwestLongitude,
-                northeastLatitude, northeastLongitude
-        );
+        List<Store> stores = this.storeUseCase.getList(null, null, page);
 
         List<FeedImageResponse> response = stores
                 .stream().flatMap(
                         store -> store.getImageUrls()
                                       .stream().map(
-                                        imageUrl -> new FeedImageResponse(store.getId(), imageUrl)
+                                        imageUrl -> new FeedImageResponse(
+                                                store.getId(), store.getName(), store.getDistrict(), imageUrl)
                                 )
                 )
                 .collect(Collectors.toList());
 
+        Collections.shuffle(response);
         return ResponseEntity.ok().body(response);
     }
 
     @Operation(description = "케이크샵 상세 정보 조회(상세 정보만)")
     @GetMapping("/{id}")
     public ResponseEntity<StoreDetailResponse> getStoreDetail(@PathVariable("id") Long storeId) {
-        StoreResponse storeResponse = this.storeUseCase.getStore(storeId);
+        Store store = this.storeUseCase.getStore(storeId);
         return ResponseEntity.ok().body(
-                new StoreDetailResponse(
-                        storeResponse,
-                        this.storeUseCase.getNaverLocalApiByStore(storeResponse)));
+                new StoreDetailResponse(store,
+                                        this.storeUseCase.getNaverLocalApiByStore(store)));
     }
 
     @Operation(description = "케이크샵 블로그 정보 조회")
@@ -121,5 +116,11 @@ public class StoreController {
             @RequestParam(value = "num", required = false, defaultValue = "3") Integer blogNum) {
         return ResponseEntity.ok().body(
                 new StoreBlogResponse(this.storeUseCase.getNaverBlogApiByStore(storeId, blogNum)));
+    }
+
+    @Operation(description = "북마크 가게 조회")
+    @GetMapping("/{id}/bookmark")
+    public ResponseEntity<StoreBookmarkResponse> getStoreBookmark(@PathVariable(value = "id") Long storeId) {
+        return ResponseEntity.ok().body(new StoreBookmarkResponse(this.storeUseCase.getStore(storeId)));
     }
 }

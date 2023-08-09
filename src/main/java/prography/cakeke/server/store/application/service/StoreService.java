@@ -7,10 +7,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
@@ -39,7 +38,7 @@ public class StoreService implements StoreUseCase {
      * @return 각 구별 가게의 개수
      */
     @Override
-    public List<DistrictCountResponse> getCount() {
+    public List<DistrictCountDTO> getCount() {
         return loadStorePort.getDistrictCount();
     }
 
@@ -97,21 +96,36 @@ public class StoreService implements StoreUseCase {
         return loadStorePort.getStoreTagByStoreId(storeId);
     }
 
+    /**
+     * 가게 아이디를 받아 가게 정보를 반환합니다.
+     * @param storeId 가게 아이디
+     * @return 가게 정보
+     */
     @Override
-    public StoreResponse getStore(Long storeId) {
-        return loadStorePort.getStore(storeId).get(storeId);
+    public Store getStore(Long storeId) {
+        return loadStorePort.getStore(storeId);
     }
 
+    /**
+     * 가게 정보를 받아 해당 가게의 네이버 지역 검색 결과를 반환합니다.
+     * @param store 가게
+     * @return 네이버 지역 검색 결과
+     */
     @Override
-    public StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(StoreResponse storeResponse) {
-        final String storeName = storeResponse.getName();
+    public StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(Store store) {
+        final String storeName = store.getName();
         return loadNaverSearchApiPort.getNaverLocalSearchResponse(storeName);
     }
 
+    /**
+     * 가게 Id와 원하는 블로그 개수를 받아 해당 가게의 네이버 블로그 검색 결과를 반환합니다.
+     * @param storeId 가게 Id, blogNum 보여줄 블로그 개수
+     * @return 네이버 블로그 검색 결과
+     */
     @Override
     public List<StoreNaverBlogSearchApiResponse> getNaverBlogApiByStore(Long storeId, Integer blogNum) {
-        StoreResponse storeResponse = loadStorePort.getStore(storeId).get(storeId);
-        final String storeName = storeResponse.getName();
+        Store store = loadStorePort.getStore(storeId);
+        final String storeName = store.getName();
         return loadNaverSearchApiPort.getNaverBlogSearchResponse(storeName, blogNum);
     }
 

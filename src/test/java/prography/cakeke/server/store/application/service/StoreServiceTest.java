@@ -11,10 +11,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import prography.cakeke.server.common.BaseMock;
-import prography.cakeke.server.store.adapter.in.web.response.DistrictCountResponse;
+import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearchApiResponse;
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
-import prography.cakeke.server.store.adapter.in.web.response.StoreResponse;
 import prography.cakeke.server.store.adapter.out.persistence.StoreAndTagRepository;
 import prography.cakeke.server.store.adapter.out.persistence.StoreRepository;
 import prography.cakeke.server.store.adapter.out.persistence.StoreTagRepository;
@@ -62,7 +61,7 @@ class StoreServiceTest extends BaseMock {
     @Test
     @DisplayName("각 구의 개수 반환(성공)")
     public void getCountTestSuccess() {
-        List<DistrictCountResponse> districtCountResponseList = storeService.getCount();
+        List<DistrictCountDTO> districtCountResponseList = storeService.getCount();
         assertThat((long) districtCountResponseList.size()).isEqualTo(1L);
     }
 
@@ -126,24 +125,24 @@ class StoreServiceTest extends BaseMock {
     @DisplayName("가게 조회(성공)")
     public void getStoreByStoreIdTestSuccess() {
         Long testStoreId = storeRepository.findByName(testName).get().getId();
-        StoreResponse testStoreResponse = storeService.getStore(testStoreId);
+        Store testStore = storeService.getStore(testStoreId);
 
-        assertThat(testStoreResponse.getCity()).isEqualTo(testCity);
-        assertThat(testStoreResponse.getDistrict()).isEqualTo(testDistrict);
-        assertThat(testStoreResponse.getLatitude()).isEqualTo(testLatitude);
-        assertThat(testStoreResponse.getLocation()).isEqualTo(testLocation);
-        assertThat(testStoreResponse.getLongitude()).isEqualTo(testLongitude);
-        assertThat(testStoreResponse.getName()).isEqualTo(testName);
-        assertThat(testStoreResponse.getShareLink()).isEqualTo(testShareLink);
+        assertThat(testStore.getCity()).isEqualTo(testCity);
+        assertThat(testStore.getDistrict()).isEqualTo(testDistrict);
+        assertThat(testStore.getLatitude()).isEqualTo(testLatitude);
+        assertThat(testStore.getLocation()).isEqualTo(testLocation);
+        assertThat(testStore.getLongitude()).isEqualTo(testLongitude);
+        assertThat(testStore.getName()).isEqualTo(testName);
+        assertThat(testStore.getShareLink()).isEqualTo(testShareLink);
     }
 
     @Test
     @DisplayName("네이버 로컬 API 조회 테스트(성공)")
     public void getNaverLocalApiTestSuccess() {
         Long testStoreId = storeRepository.findByName(testNaverStoreName).get().getId();
-        StoreResponse testStoreResponse = storeService.getStore(testStoreId);
+        Store testStore = storeService.getStore(testStoreId);
         StoreNaverLocalSearchApiResponse testStoreNaverLocalSearchApiResponse =
-                storeService.getNaverLocalApiByStore(testStoreResponse);
+                storeService.getNaverLocalApiByStore(testStore);
 
         assertThat(testStoreNaverLocalSearchApiResponse.getAddress()).isEqualTo(testNaverStoreAddress);
     }
