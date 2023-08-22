@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.micrometer.core.annotation.Timed;
 import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.store.adapter.in.web.response.DistrictCountDTO;
@@ -52,6 +53,7 @@ public class StoreController {
     }
 
     @Operation(description = "이 지역 재검색")
+    @Timed(value = "get-reload")
     @GetMapping("/reload")
     public ResponseEntity<List<StoreResponse>> reload(
             @RequestParam(value = "storeTypes", required = false) List<StoreType> storeTypes,
