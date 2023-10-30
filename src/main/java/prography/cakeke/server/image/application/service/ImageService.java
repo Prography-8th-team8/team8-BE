@@ -10,8 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.RequiredArgsConstructor;
 import prography.cakeke.server.image.application.port.in.ImageUseCase;
+import prography.cakeke.server.image.application.port.out.UploadS3Port;
 import prography.cakeke.server.image.exceptions.NotSupportedFileFormatException;
-import prography.cakeke.server.store.application.port.out.UploadS3Port;
 
 @Service
 @RequiredArgsConstructor
