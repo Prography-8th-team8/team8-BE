@@ -16,8 +16,8 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 
 import lombok.RequiredArgsConstructor;
+import prography.cakeke.server.image.application.port.out.UploadS3Port;
 import prography.cakeke.server.image.exceptions.InvalidFileNameException;
-import prography.cakeke.server.store.application.port.out.UploadS3Port;
 
 @Component
 @RequiredArgsConstructor
