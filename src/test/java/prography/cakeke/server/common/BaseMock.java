@@ -25,7 +25,7 @@ public class BaseMock {
     protected final StoreType testStoreType = StoreType.CHARACTER;
 
     protected final String testNaverStoreName = "끌레르 봉봉";
-    protected final String testNaverStoreAddress = "서울특별시 강남구 논현로114길 8 1층 103호 끌레르봉봉";
+    protected final String testNaverStoreLink = "http://pf.kakao.com/_busxnC";
 
     protected Store buildStore(String storeName) {
         return Store.builder()

@@ -15,7 +15,7 @@ spring:
       ddl-auto: update
   data:
     redis:
-      host: ENC(Vu1yuZNRQp9ZpKbWf9/RPQ==)
+      host: ENC(k9JRvKt85GZzSZSHbXBXrA==)
       port: 6379
 
 management:
