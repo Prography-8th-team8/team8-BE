@@ -12,7 +12,9 @@ import prography.cakeke.server.store.adapter.in.web.response.StoreNaverBlogSearc
 import prography.cakeke.server.store.adapter.in.web.response.StoreNaverLocalSearchApiResponse;
 import prography.cakeke.server.store.application.port.in.StoreUseCase;
 import prography.cakeke.server.store.application.port.out.LoadNaverSearchApiPort;
+import prography.cakeke.server.store.application.port.out.LoadRedisPort;
 import prography.cakeke.server.store.application.port.out.LoadStorePort;
+import prography.cakeke.server.store.application.port.out.SaveRedisPort;
 import prography.cakeke.server.store.domain.District;
 import prography.cakeke.server.store.domain.Store;
 import prography.cakeke.server.store.domain.StoreTag;
@@ -32,6 +34,8 @@ public class StoreService implements StoreUseCase {
 
     private final LoadNaverSearchApiPort loadNaverSearchApiPort;
     private final LoadStorePort loadStorePort;
+    private final SaveRedisPort saveRedisPort;
+    private final LoadRedisPort loadRedisPort;
 
     /**
      * 각 구별 가게의 개수를 반환합니다.
@@ -113,8 +117,27 @@ public class StoreService implements StoreUseCase {
      */
     @Override
     public StoreNaverLocalSearchApiResponse getNaverLocalApiByStore(Store store) {
-        final String storeName = store.getName();
-        return loadNaverSearchApiPort.getNaverLocalSearchResponse(storeName);
+        /**
+         *  1. redis에서 검색해보고 없으면 naver에서 link 정보 가져와 redis에 저장하고 반환.
+         *  2. redis에 있으면 바로 반환.
+         */
+        String redisResponse = loadRedisPort.getByKey(String.valueOf(store.getId()));
+
+        // redis에 없으면
+        if (redisResponse == null) {
+            StoreNaverLocalSearchApiResponse naverResponse =
+                    loadNaverSearchApiPort.getNaverLocalSearchResponse(store.getName());
+            saveRedisPort.save(String.valueOf(store.getId()), naverResponse.getLink());
+            return naverResponse;
+        }
+
+        // redis에 있으면
+        return StoreNaverLocalSearchApiResponse.builder()
+                                               .link(redisResponse)
+                                               .address("")
+                                               .phoneNumber("")
+                                               .description("")
+                                               .build();
     }
 
     /**

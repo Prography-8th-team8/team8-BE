@@ -16,6 +16,10 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: create-drop
+  data:
+    redis:
+      host: ENC(pCIBlNunKRquFLxqCT3VgUicVCF6Z1si)
+      port: 6379
 
 management:
   endpoints:

@@ -144,7 +144,7 @@ class StoreServiceTest extends BaseMock {
         StoreNaverLocalSearchApiResponse testStoreNaverLocalSearchApiResponse =
                 storeService.getNaverLocalApiByStore(testStore);
 
-        assertThat(testStoreNaverLocalSearchApiResponse.getAddress()).isEqualTo(testNaverStoreAddress);
+        assertThat(testStoreNaverLocalSearchApiResponse.getLink()).isEqualTo(testNaverStoreLink);
     }
 
     @Test

@@ -1,4 +1,4 @@
-package prography.cakeke.server.store.application.port.out;
+package prography.cakeke.server.image.application.port.out;
 
 import org.springframework.web.multipart.MultipartFile;
 

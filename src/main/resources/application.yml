@@ -13,6 +13,10 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: update
+  data:
+    redis:
+      host: ENC(k9JRvKt85GZzSZSHbXBXrA==)
+      port: 6379
 
 management:
   endpoints:
