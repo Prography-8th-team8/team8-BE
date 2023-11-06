@@ -26,9 +26,6 @@ dependencies {
     runtimeOnly 'com.h2database:h2'
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation('it.ozimov:embedded-redis:0.7.3') {
-        exclude group: 'org.slf4j', module: 'slf4j-simple'
-    }
 
     // sql
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.3.1'
@@ -41,6 +38,7 @@ dependencies {
 
     // test
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.testcontainers:testcontainers:1.17.2'
 
     // Swagger
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.4'
